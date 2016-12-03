@@ -71,18 +71,33 @@ public class Game implements Runnable {
 
     public void setSides() {
         try {
-            player1.getOutputStream().writeUTF("XPOS 20");
-            player2.getOutputStream().writeUTF("XPOS 220");
+            player1.getOutputStream().writeUTF("RIGHT");
+            Thread.sleep(1000);
+            player2.getOutputStream().writeUTF("LEFT");
+            Thread.sleep(100);
+            player1.getOutputStream().writeUTF("START");
+            player2.getOutputStream().writeUTF("START");
+            
+            
+            
         } catch (IOException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        } catch (InterruptedException ex) {
+            System.out.println(ex.getMessage());
         }
     }
-    
+
     @Override
     public void run() {
-        try{
+        try {
+            setSides();
+            //sendStartMessage();
+            
             //priebeh hry ak sú obaja hráči prítomní
-            while(player1!=null && player2!=null){
+            while(player1!=null && player2!=null) {
+                
+                
+                
                 //ak lopta je za hráčovim pádlom
                 if(player1.getxPosition()>ball.getxPosition()){
                     //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu

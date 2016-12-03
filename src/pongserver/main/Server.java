@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import pongserver.game.Game;
 import pongserver.players.PlayerThread;
 
 /**
@@ -73,22 +74,14 @@ public class Server implements Runnable {
                 //remove first two players from list
                 List<PlayerThread> retrievePlayers = this.retrievePlayers();
                 
-                // we can start the game :)
-                outputStreams.entrySet()
-                        .stream()
-                        .filter((entry) -> (retrievePlayers.contains(entry.getKey())))
-                        .forEach((entry) -> {
-                    try {
+                Game game = new Game(retrievePlayers.get(0), retrievePlayers.get(1));
+                new Thread(game).start();
+                
+                gui.appendMessage("####STARTING_GAME####");
+                gui.appendMessage(retrievePlayers.get(0).getName());
+                gui.appendMessage(retrievePlayers.get(1).getName());
+                gui.appendMessage("#####################");
 
-                        gui.appendMessage("     - Sending start message to " + entry.getKey().getName());
-                        
-                        
-                        
-                        entry.getValue().writeUTF("START");
-                    } catch (IOException ex) {
-                        gui.appendMessage(ex.getMessage());
-                    }
-                });
                 serverStatus();
             }
         }

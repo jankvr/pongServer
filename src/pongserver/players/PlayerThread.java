@@ -88,8 +88,6 @@ public class PlayerThread implements Runnable {
             
             while (alive) {
 
-                outputStream.writeUTF("ahoj");
-                
                 String message = inputStream.readUTF();
                 
                 System.out.println("FROM " + name +" received message " + message);

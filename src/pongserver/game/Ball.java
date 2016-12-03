@@ -122,7 +122,9 @@ public class Ball {
         this.canMove=true;
     }
     
-    
+    public String getCurrentPosition() {
+        return "BALL " + this.xPosition + " " + this.yPosition;
+    }
 
     
     
