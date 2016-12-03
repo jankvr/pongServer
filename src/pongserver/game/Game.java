@@ -5,20 +5,20 @@
  */
 package pongserver.game;
 
-import pongserver.players.Player;
+import pongserver.players.PlayerThread;
 
 /**
  *
  * @author User
  */
 public class Game implements Runnable {
-    private Player player1;//hráč na ľavej strane
-    private Player player2;//hráč na pravej strane
+    private PlayerThread player1;//hráč na ľavej strane
+    private PlayerThread player2;//hráč na pravej strane
     private Ball ball;
     private Score score;
-    private Player winner = null;
+    private PlayerThread winner = null;
 
-    public Game(Player player1, Player player2) {
+    public Game(PlayerThread player1, PlayerThread player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.ball = new Ball();
@@ -29,19 +29,19 @@ public class Game implements Runnable {
 //        this.winner = winner;
 //    }
     
-    public Player getPlayer1() {
+    public PlayerThread getPlayer1() {
         return player1;
     }
 
-    public void setPlayer1(Player player1) {
+    public void setPlayer1(PlayerThread player1) {
         this.player1 = player1;
     }
 
-    public Player getPlayer2() {
+    public PlayerThread getPlayer2() {
         return player2;
     }
 
-    public void setPlayer2(Player player2) {
+    public void setPlayer2(PlayerThread player2) {
         this.player2 = player2;
     }
 
