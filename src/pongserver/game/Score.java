@@ -20,7 +20,7 @@ public class Score {
      * @return informáciu o tom, či sa podarilo zvýšiť počet bodov. Ak sa už 
      * nedá zvýšiť počet bodov, vráti false, inak vráti true.
      */
-    public boolean setRec1(int points){
+    public boolean increaseRec1(int points){
         rec1=rec1+points;
         if(rec1==max){
             return false;
@@ -34,11 +34,17 @@ public class Score {
      * @return informáciu o tom, či sa podarilo zvýšiť počet bodov. Ak sa už 
      * nedá zvýšiť počet bodov, vráti false, inak vráti true.
      */
-    public boolean setRec2(int points){
-        rec1=rec1+points;
-        if(rec1==max){
+    public boolean increaseRec2(int points){
+        rec2=rec2+points;
+        if(rec2==max){
             return false;
         }        
         return true;
+    }
+    
+    public String getWinnerInfo(){
+        if(rec1>rec2){return "Player1. The score is "+rec1+":"+rec2;}
+        if(rec1<rec2){return "Player2. The score is "+rec1+":"+rec2;}
+        else{return "nobody, it's a tie. The score is "+rec1+":"+rec2;}
     }
 }

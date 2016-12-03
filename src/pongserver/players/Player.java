@@ -12,12 +12,26 @@ import pongserver.game.Ball;
  * @author User
  */
 public class Player {
-    private int xPosition;
-    private int yPosition;
-    private int halfLength=50;
+    private double xPosition;
+    private double yPosition;
+    private double halfLength=50;
     private String name;
 
-    public int getxPosition() {
+
+    private static final int SPEED = 5;
+    
+    public double getLength(){
+        return halfLength*2;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getxPosition() {
         return xPosition;
     }
 
@@ -25,7 +39,7 @@ public class Player {
         this.xPosition = xPosition;
     }
 
-    public int getyPosition() {
+    public double getyPosition() {
         return yPosition;
     }
 
