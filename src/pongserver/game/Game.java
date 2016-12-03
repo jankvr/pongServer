@@ -8,6 +8,7 @@ package pongserver.game;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import pongserver.players.PlayerThread;
 
 /**
@@ -20,7 +21,7 @@ public class Game implements Runnable {
     private Ball ball;
     private Score score;
     private PlayerThread winner = null;
-    private static final int WIDTH = 640; 
+    private static final int WIDTH = 800; 
     private static final int HEIGHT = WIDTH/4*3;
     private static final double SCALE = 1;
     public static final int MAP_WIDTH = WIDTH;
@@ -75,6 +76,9 @@ public class Game implements Runnable {
             Thread.sleep(1000);
             player2.getOutputStream().writeUTF("LEFT");
             Thread.sleep(100);
+            player1.setGame(this);
+            player2.setGame(this);
+            Thread.sleep(100);
             player1.getOutputStream().writeUTF("START");
             player2.getOutputStream().writeUTF("START");
             
@@ -94,34 +98,47 @@ public class Game implements Runnable {
             //sendStartMessage();
             
             //priebeh hry ak sú obaja hráči prítomní
-            while(player1!=null && player2!=null) {
-                
-                
-                
-                //ak lopta je za hráčovim pádlom
-                if(player1.getxPosition()>ball.getxPosition()){
-                    //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu
-                    if(score.increaseRec2(1)){
-                        this.ball.reset();
-                    }
-                    //ukončím celý cyklus while v prípade že už sa mu nedá zvýšiť skóre, teda dosiahlo maximum
-                    else{
-                        break;
-                    }
-                }
-                
-                //to isté aj pre hráča 2
-                if(player2.getxPosition()<ball.getxPosition()){
-                    if(score.increaseRec2(1)){
-                        this.ball.reset();
-                    }
-                    else{
-                        //winner = player1;
+            //while(player1!=null && player2!=null) {
+            new AnimationTimer() {
+                @Override
+                public void handle(long currentNanoTime) {
+                    try {
+
+                        String p1 = player1.getInputStream().readUTF();
+                        player2.getOutputStream().writeUTF(p1);
+                        
+                        String p2 = player2.getInputStream().readUTF();
+                        player1.getOutputStream().writeUTF(p2);
+                        
+                        //ak lopta je za hráčovim pádlom
+                        if(player1.getxPosition()>ball.getxPosition()){
+                            //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu
+                            if(score.increaseRec2(1)){
+                                ball.reset();
+                            }
+                            //ukončím celý cyklus while v prípade že už sa mu nedá zvýšiť skóre, teda dosiahlo maximum
+                            else{
+                                //break;
+                            }
+                        }
+                        
+                        //to isté aj pre hráča 2
+                        if(player2.getxPosition()<ball.getxPosition()){
+                            if(score.increaseRec2(1)){
+                                ball.reset();
+                            }
+                            else{
+                                //winner = player1;
 //                        System.out.println("Player1 is the winner");
-                        break;
+//break;
+                            }
+                        }   } catch (IOException ex) {
+                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+
+                
             }
+            };
             //hra skončila, buď jeden hráč dosiahol maximálne skóre
             //alebo už jeden hráč nie je prítomný
            

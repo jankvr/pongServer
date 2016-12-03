@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pongserver.game.Ball;
+import pongserver.game.Game;
 import pongserver.main.Server;
 
 /**
@@ -32,7 +33,8 @@ public class PlayerThread implements Runnable {
     private DataOutputStream outputStream;
     private boolean alive;
     
-     
+    private Game game;
+    private PlayerThread opponent;
 
 
     public PlayerThread(String name, Socket socket, Server server) {
@@ -48,6 +50,17 @@ public class PlayerThread implements Runnable {
         }
     }
     
+    public void setGame(Game game) {
+        this.game = game;
+        
+        if (this.equals(game.getPlayer1())) {
+            this.opponent = game.getPlayer2();
+        }
+        else {
+            this.opponent = game.getPlayer1();
+        }
+        System.out.println("My name is " + name + "and i am sending this to " + this.opponent.getName());
+    }
     
     public double getLength(){
         return halfLength*2;
@@ -90,7 +103,9 @@ public class PlayerThread implements Runnable {
 
                 String message = inputStream.readUTF();
                 
-                System.out.println("FROM " + name +" received message " + message);
+                //System.out.println("I, the great " + name +", received message " + message);
+                
+                opponent.getOutputStream().writeUTF(message);
                 
                 if (message.equals("QUIT")) {
                     
