@@ -10,5 +10,18 @@ package pongserver.players;
  * @author User
  */
 public class Player {
+
+    public int i;
     
+    public Player(int i) {
+        this.i = i;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" + "i=" + i + "}";
+    }
+    
+    
+     
 }
