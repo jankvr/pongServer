@@ -81,6 +81,9 @@ public class Server implements Runnable {
                     try {
 
                         gui.appendMessage("     - Sending start message to " + entry.getKey().getName());
+                        
+                        
+                        
                         entry.getValue().writeUTF("START");
                     } catch (IOException ex) {
                         gui.appendMessage(ex.getMessage());

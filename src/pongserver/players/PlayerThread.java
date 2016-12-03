@@ -40,9 +40,6 @@ public class PlayerThread implements Runnable {
         this.socket = socket;
         this.server = server;
         this.alive = true;
-        if (alive) {
-            System.out.println("i am so alive");
-        }
         try {
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
@@ -155,5 +152,11 @@ public class PlayerThread implements Runnable {
         return Objects.equals(this.name, other.name);
     }
     
+    public DataOutputStream getOutputStream() {
+        return outputStream;
+    }
     
+    public DataInputStream getInputStream() {
+        return inputStream;
+    }
 }

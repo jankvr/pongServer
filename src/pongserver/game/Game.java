@@ -5,6 +5,9 @@
  */
 package pongserver.game;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pongserver.players.PlayerThread;
 
 /**
@@ -66,6 +69,15 @@ public class Game implements Runnable {
         this.score = score;
     }
 
+    public void setSides() {
+        try {
+            player1.getOutputStream().writeUTF("XPOS 20");
+            player2.getOutputStream().writeUTF("XPOS 220");
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public void run() {
         try{
@@ -109,5 +121,7 @@ public class Game implements Runnable {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
+    public String getName() {
+        return player1.getName() + "_" + player2.getName();
+    }
 }
