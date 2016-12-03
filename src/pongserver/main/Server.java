@@ -55,7 +55,7 @@ public class Server implements Runnable {
             Socket socket = serverSocket.accept();
             
             PlayerThread playerThread = new PlayerThread("p" + this.index, socket, this);
-            new Thread(playerThread).start();
+            
             this.index++;
             
             playerQueue.add(playerThread);

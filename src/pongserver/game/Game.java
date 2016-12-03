@@ -26,6 +26,8 @@ public class Game implements Runnable {
     private static final double SCALE = 1;
     public static final int MAP_WIDTH = WIDTH;
     public static final int MAP_HEIGHT = HEIGHT;
+    private Thread player1Thread;
+    private Thread player2Thread;
 
     public Game(PlayerThread player1, PlayerThread player2) {
         this.player1 = player1;
@@ -94,10 +96,19 @@ public class Game implements Runnable {
     @Override
     public void run() {
         try {
+            player1Thread = new Thread(player1);
+            player2Thread = new Thread(player2);
+            
+            player1Thread.start();
+            player2Thread.start();
+            
             setSides();
             //sendStartMessage();
             while (true ) {
                 System.out.println("asdf");
+                
+                player1Thread.join();
+                player2Thread.join();
                 
                 player1.getOutputStream().writeUTF("TEST1");
                 player2.getOutputStream().writeUTF("TEST2");
