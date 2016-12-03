@@ -5,29 +5,27 @@
  */
 package pongserver.game;
 
-import pongserver.players.Player;
+import pongserver.players.PlayerThread;
 
 /**
  *
  * @author User
  */
 public class Game implements Runnable {
-    private Player player1;//hráč na ľavej strane
-    private Player player2;//hráč na pravej strane
+    private PlayerThread player1;//hráč na ľavej strane
+    private PlayerThread player2;//hráč na pravej strane
     private Ball ball;
     private Score score;
-    private Player winner = null;
+    private PlayerThread winner = null;
     private static final int WIDTH = 640; 
     private static final int HEIGHT = WIDTH/4*3;
     private static final double SCALE = 1;
     public static final int MAP_WIDTH = WIDTH;
     public static final int MAP_HEIGHT = HEIGHT;
 
-    public Game(Player player1, Player player2) {
+    public Game(PlayerThread player1, PlayerThread player2) {
         this.player1 = player1;
-        this.player1.setName("Player 1");
         this.player2 = player2;
-        this.player2.setName("Player 2");
         this.ball = new Ball(this);
         this.score = new Score();
     }
@@ -36,19 +34,19 @@ public class Game implements Runnable {
 //        this.winner = winner;
 //    }
     
-    public Player getPlayer1() {
+    public PlayerThread getPlayer1() {
         return player1;
     }
 
-    public void setPlayer1(Player player1) {
+    public void setPlayer1(PlayerThread player1) {
         this.player1 = player1;
     }
 
-    public Player getPlayer2() {
+    public PlayerThread getPlayer2() {
         return player2;
     }
 
-    public void setPlayer2(Player player2) {
+    public void setPlayer2(PlayerThread player2) {
         this.player2 = player2;
     }
 
