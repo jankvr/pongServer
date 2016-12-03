@@ -102,9 +102,7 @@ public class PlayerThread implements Runnable {
             while (alive) {
 
                 String message = inputStream.readUTF();
-                
-                //System.out.println("I, the great " + name +", received message " + message);
-                
+
                 opponent.getOutputStream().writeUTF(message);
                 
                 if (message.equals("QUIT")) {

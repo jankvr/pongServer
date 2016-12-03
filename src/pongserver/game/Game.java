@@ -96,56 +96,58 @@ public class Game implements Runnable {
         try {
             setSides();
             //sendStartMessage();
-            
+            while (true ) {
+                System.out.println("asdf");
+                
+                player1.getOutputStream().writeUTF("TEST1");
+                player2.getOutputStream().writeUTF("TEST2");
+            }
             //priebeh hry ak sú obaja hráči prítomní
             //while(player1!=null && player2!=null) {
-            new AnimationTimer() {
-                @Override
-                public void handle(long currentNanoTime) {
-                    try {
-
-                        String p1 = player1.getInputStream().readUTF();
-                        player2.getOutputStream().writeUTF(p1);
-                        
-                        String p2 = player2.getInputStream().readUTF();
-                        player1.getOutputStream().writeUTF(p2);
-                        
-                        //ak lopta je za hráčovim pádlom
-                        if(player1.getxPosition()>ball.getxPosition()){
-                            //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu
-                            if(score.increaseRec2(1)){
-                                ball.reset();
-                            }
-                            //ukončím celý cyklus while v prípade že už sa mu nedá zvýšiť skóre, teda dosiahlo maximum
-                            else{
-                                //break;
-                            }
-                        }
-                        
-                        //to isté aj pre hráča 2
-                        if(player2.getxPosition()<ball.getxPosition()){
-                            if(score.increaseRec2(1)){
-                                ball.reset();
-                            }
-                            else{
-                                //winner = player1;
-//                        System.out.println("Player1 is the winner");
-//break;
-                            }
-                        }   } catch (IOException ex) {
-                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                
-            }
-            };
-            //hra skončila, buď jeden hráč dosiahol maximálne skóre
-            //alebo už jeden hráč nie je prítomný
-           
-            System.out.println("Game is over. The winner is "
-                    +score.getWinnerInfo());  
-            
-            
+//            new AnimationTimer() {
+//                @Override
+//                public void handle(long currentNanoTime) {
+//                    try {
+//
+//                        System.out.println(player1.getName() + " message: " + p1);
+//                        System.out.println(player2.getName() + " message: " + p2);
+//                        
+//                        //ak lopta je za hráčovim pádlom
+//                        if(player1.getxPosition()>ball.getxPosition()){
+//                            //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu
+//                            if(score.increaseRec2(1)){
+//                                ball.reset();
+//                            }
+//                            //ukončím celý cyklus while v prípade že už sa mu nedá zvýšiť skóre, teda dosiahlo maximum
+//                            else{
+//                                //break;
+//                            }
+//                        }
+//                        
+//                        //to isté aj pre hráča 2
+//                        if(player2.getxPosition()<ball.getxPosition()){
+//                            if(score.increaseRec2(1)){
+//                                ball.reset();
+//                            }
+//                            else{
+//                                //winner = player1;
+////                        System.out.println("Player1 is the winner");
+////break;
+//                            }
+//                        }   } catch (IOException ex) {
+//                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//
+//                
+//            }
+//            };
+//            //hra skončila, buď jeden hráč dosiahol maximálne skóre
+//            //alebo už jeden hráč nie je prítomný
+//           
+//            System.out.println("Game is over. The winner is "
+//                    +score.getWinnerInfo());  
+//            
+//            
             
         } catch(Exception e){
             
