@@ -27,6 +27,7 @@ public class Server implements Runnable {
     private Map<PlayerThread, DataOutputStream> outputStreams;
     private IGui gui;
     private int index;
+    private static final int NEEDED_PLAYERS = 2;
     
     
     public Server(int port, IGui gui) {
@@ -53,6 +54,7 @@ public class Server implements Runnable {
             Socket socket = serverSocket.accept();
             
             PlayerThread playerThread = new PlayerThread("p" + this.index, socket, this);
+            new Thread(playerThread).start();
             this.index++;
             
             playerQueue.add(playerThread);
@@ -64,8 +66,8 @@ public class Server implements Runnable {
             
             serverStatus();
             
-            if (playerQueue.size() > 1) {
-                gui.appendMessage("Starting the game");
+            if (playerQueue.size() >= NEEDED_PLAYERS) {
+                gui.appendMessage(" - Starting the game");
                 //start the game
                 
                 //remove first two players from list
@@ -78,20 +80,14 @@ public class Server implements Runnable {
                         .forEach((entry) -> {
                     try {
 
-                        gui.appendMessage(" - Sending start message to " + entry.getKey().getName());
-                        
+                        gui.appendMessage("     - Sending start message to " + entry.getKey().getName());
                         entry.getValue().writeUTF("START");
-                        //this.msg.add(message);
                     } catch (IOException ex) {
                         gui.appendMessage(ex.getMessage());
                     }
                 });
                 serverStatus();
             }
-            
-            playerQueue.stream().forEach((p) -> {
-                gui.appendMessage(p.getName());
-            });
         }
     }
 
@@ -132,7 +128,14 @@ public class Server implements Runnable {
         //and close socket
         player.getSocket().close();
         
-        gui.appendMessage("Socket " + player.getName() + "closed");
+        gui.appendMessage("Socket " + player.getName() + " closed, " + playerQueue.size() + " player(s) waiting");
+        
+        
+//        gui.appendMessage("####DEBUG####");
+//        playerQueue.stream().forEach((p) -> {
+//            gui.appendMessage(p.getName());
+//        });
+//        gui.appendMessage("#############");
     }
     
 }

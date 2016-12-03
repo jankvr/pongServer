@@ -6,6 +6,7 @@
 package pongserver.players;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
@@ -27,12 +28,27 @@ public class PlayerThread implements Runnable {
     private final String name;
     private final Socket socket;
     private final Server server;
+    private DataInputStream inputStream;
+    private DataOutputStream outputStream;
+    private boolean alive;
+    
+     
 
 
     public PlayerThread(String name, Socket socket, Server server) {
         this.name = name;
         this.socket = socket;
         this.server = server;
+        this.alive = true;
+        if (alive) {
+            System.out.println("i am so alive");
+        }
+        try {
+            this.inputStream = new DataInputStream(socket.getInputStream());
+            this.outputStream = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(PlayerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
@@ -72,12 +88,21 @@ public class PlayerThread implements Runnable {
     @Override
     public void run() {
         try {
-            // create input stream
-            DataInputStream inputStream = new DataInputStream(socket.getInputStream());
             
-            //infinite loop
-            while (true) {
-                //String message = inputStream.readUTF();
+            while (alive) {
+
+                outputStream.writeUTF("ahoj");
+                
+                String message = inputStream.readUTF();
+                
+                System.out.println("FROM " + name +" received message " + message);
+                
+                if (message.equals("QUIT")) {
+                    
+                    alive = false;
+                }
+                
+                
                 
                 // do the magic
             }
