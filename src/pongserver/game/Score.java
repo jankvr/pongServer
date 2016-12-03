@@ -52,4 +52,28 @@ public class Score {
         if(rec1<rec2){return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;}
         else{return "nobody, it's a tie. The score is "+rec1+":"+rec2;}
     }
+    
+    public int getRec1() {
+        return rec1;
+    }
+
+    public void setRec1(int rec1) {
+        this.rec1 = rec1;
+    }
+
+    public int getRec2() {
+        return rec2;
+    }
+
+    public void setRec2(int rec2) {
+        this.rec2 = rec2;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }    
 }
