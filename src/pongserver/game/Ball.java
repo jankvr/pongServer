@@ -92,17 +92,17 @@ public class Ball {
         }
         // toto je jen kolize s pravou stranou, od te se nebude odrazet
         else if ((this.xPosition + this.height) > Game.MAP_WIDTH) {
-            this.directionX *= -1;
-//            System.out.println("bod pro leveho");
-//            this.canMove = false;
-//            this.resetBall();
+            //this.directionX *= -1;
+            System.out.println("bod pro leveho");
+            this.canMove = false;
+            //this.reset(); //resetuje sa to v triede Game zároveň pri zvýšení skóre
         }
         
         // toto je kolize s levou stranou
         else if (this.xPosition < 0) {
             System.out.println("bod pro praveho");
             this.canMove = false;
-            this.reset();
+            //this.reset();
         }
         
         this.xPosition = this.xPosition + (this.directionX * SPEED);

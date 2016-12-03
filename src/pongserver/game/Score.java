@@ -13,6 +13,11 @@ public class Score {
     private int rec1 = 0;//skóre hráča 1 (ľavého)
     private int rec2 = 0;//skóre hráča 2 (pravého)
     private int max = 10;//maximálne skóre 1 hráča
+    private Game game;
+
+    public Score(Game game) {
+        this.game=game;
+    }
     
     /**
      * Zvýši skôre hráča 1 o daný počet bodov
@@ -43,8 +48,8 @@ public class Score {
     }
     
     public String getWinnerInfo(){
-        if(rec1>rec2){return "Player1. The score is "+rec1+":"+rec2;}
-        if(rec1<rec2){return "Player2. The score is "+rec1+":"+rec2;}
+        if(rec1>rec2){return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;}
+        if(rec1<rec2){return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;}
         else{return "nobody, it's a tie. The score is "+rec1+":"+rec2;}
     }
 }

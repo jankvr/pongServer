@@ -27,7 +27,7 @@ public class Game implements Runnable {
         this.player1 = player1;
         this.player2 = player2;
         this.ball = new Ball(this);
-        this.score = new Score();
+        this.score = new Score(this);
     }
     
 //    public void setWinner(Player winner){
