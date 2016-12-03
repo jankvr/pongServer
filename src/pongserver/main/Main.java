@@ -5,40 +5,50 @@
  */
 package pongserver.main;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
  * @author User
  */
-public class Main extends Application {
+public class Main extends Application implements IGui {
+
+    private TextArea textArea;
+    private Server server;
     
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+    public void start(Stage stage) {
+        textArea = new TextArea();
+        textArea.setEditable(false);
+
+        server = new Server(5000, this);
         
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        root.getChildren().add(textArea);
+
+        Scene scene = new Scene(root, 720, 500);
+
+        stage.setTitle("Pong Server");
+        stage.setScene(scene);
+        stage.show();
+            
+        stage.setOnCloseRequest((WindowEvent e) -> {
+            Platform.exit();
+            System.exit(0);
+        });
         
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     /**
@@ -46,6 +56,11 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void appendMessage(String message) {
+        textArea.appendText(message + "\n");
     }
     
 }
