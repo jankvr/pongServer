@@ -91,6 +91,7 @@ public class Ball {
         else if ((this.xPosition + this.height) > Game.MAP_WIDTH) {
             //this.directionX *= -1;
             System.out.println("bod pro leveho");
+            game.getScore().increaseRec1(1);
             this.canMove = false;
             this.reset(); 
         }
@@ -98,6 +99,7 @@ public class Ball {
         // toto je kolize s levou stranou
         else if (this.xPosition < 0) {
             System.out.println("bod pro praveho");
+            game.getScore().increaseRec2(1);
             this.canMove = false;
             this.reset();
         }

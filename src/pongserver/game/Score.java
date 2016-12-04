@@ -76,4 +76,16 @@ public class Score {
     public void setMax(int max) {
         this.max = max;
     }    
+    
+    public boolean isMax(){
+        if(rec1==max || rec2==max){
+            return true;
+        }
+        return false;
+    }
+    
+    public void reset(){
+        rec1=0;
+        rec1=0;
+    }
 }

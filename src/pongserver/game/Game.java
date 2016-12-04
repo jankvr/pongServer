@@ -112,41 +112,52 @@ public class Game implements Runnable {
             
             // a hru
             setSidesAndStart();
+//            boolean willToContinue=true; //vôľa pokračovať
+//            while(willToContinue){
+                while (!score.isMax() /*true*/) {
 
-            while (true ) {
+    //###############################KONTROLA_PRUBEHU_HRY########################################
+                    // tady bude kontrola prubehu hry ()
+
+    //###########################################################################################
+
+
+
+    //###############################POSILANI_UDAJU_O_POLOZE_MICKU###############################
+                    ball.move();
+                    // tato zprava se paradoxne posila hraci c.2
+                    player1.sendData(ball.getCurrentPosition());
+                    // a tahle naopak hraci 1 (to kvuli implementaci sendData v PlayerThread)
+                    player2.sendData(ball.getCurrentPosition());
+    //###########################################################################################
+
+                    //server prijíma informácie o tom kde sa playeri nachádzajú
+                    //JARO: chybné dvojité čítanie z jedného inputstreamu
+    //                player1.receiveDataFromClient();
+    //                player2.receiveDataFromClient();
+
+
+    //###############################POSILANI_UDAJU_O_SKORE_ATD##################################
+                    // to same... jen ted je to zakomentovane
+                    System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
+                    System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
+                    // player2.sendData("TEST22");
+    //###########################################################################################
+
+                    // tento sleep je nutny k tomu, aby vubec ostatni vlakna dostaly moznost posilat zpravy (vlakno = PlayerThread)
+                    Thread.sleep(WAIT);
+
+                }
+            
+            //TODO: zobrazenie, kto vyhral   
+            
+            //TODO: tlačidlo, či chcú novú hru
+                //podľa neho sa určí, či sa willToContinue nastaví na false a nová hra nebude začatá
                 
-//###############################KONTROLA_PRUBEHU_HRY########################################
-                // tady bude kontrola prubehu hry ()
-                
-//###########################################################################################
-      
-
-
-//###############################POSILANI_UDAJU_O_POLOZE_MICKU###############################
-                ball.move();
-                // tato zprava se paradoxne posila hraci c.2
-                player1.sendData(ball.getCurrentPosition());
-                // a tahle naopak hraci 1 (to kvuli implementaci sendData v PlayerThread)
-                player2.sendData(ball.getCurrentPosition());
-//###########################################################################################
-        
-                //server prijíma informácie o tom kde sa playeri nachádzajú
-                //JARO: chybné dvojité čítanie z jedného inputstreamu
-//                player1.receiveDataFromClient();
-//                player2.receiveDataFromClient();
-                
-
-//###############################POSILANI_UDAJU_O_SKORE_ATD##################################
-                // to same... jen ted je to zakomentovane
-                System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
-                System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
-                // player2.sendData("TEST22");
-//###########################################################################################
-
-                // tento sleep je nutny k tomu, aby vubec ostatni vlakna dostaly moznost posilat zpravy (vlakno = PlayerThread)
-                Thread.sleep(WAIT);
-
-            }
+                score.reset();
+//                setSidesAndStart();
+//            }
+            
             
             //
             //priebeh hry ak sú obaja hráči prítomní
