@@ -29,7 +29,7 @@ public class PlayerThread implements Runnable {
     
     private double xPosition;
     private double yPosition;
-    private int halfLength=50;
+    private int length=120;
     private final String name;
     private final Socket socket;
     private final Server server;
@@ -68,7 +68,7 @@ public class PlayerThread implements Runnable {
     }
     
     public double getLength(){
-        return halfLength*2;
+        return length;
     }
     public double getxPosition() {
         return xPosition;
@@ -87,17 +87,17 @@ public class PlayerThread implements Runnable {
     }
     
     public boolean meets(Ball ball){
-        System.out.println("----------------");
-        System.out.println("ball xposition = "+ball.getxPosition());
-        System.out.println("ball yposition = "+ball.getyPosition());
-        System.out.println("this xposition = "+this.xPosition);
-        System.out.println("this yposition = "+this.yPosition);
-        System.out.println("this yposition+halflength = "+(this.yPosition+halfLength));
-        System.out.println("this yposition-halflength = "+(this.yPosition-halfLength));
+//        System.out.println("----------------");
+//        System.out.println("ball xposition = "+ball.getxPosition());
+//        System.out.println("ball yposition = "+ball.getyPosition());
+//        System.out.println("this xposition = "+this.xPosition);
+//        System.out.println("this yposition = "+this.yPosition);
+//        System.out.println("this yposition+halflength = "+(this.yPosition+halfLength));
+//        System.out.println("this yposition-halflength = "+(this.yPosition-halfLength));
         
-        if ((ball.getyPosition()<this.yPosition+halfLength && 
-                ball.getyPosition()>this.yPosition-halfLength)&&
-                (ball.getxPosition()<=this.xPosition)){
+        if ((ball.getyPosition()<this.yPosition+length && 
+                ball.getyPosition()>this.yPosition)&&
+                (ball.getxPosition()==this.xPosition)){
             return true;
         }
         else{

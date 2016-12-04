@@ -16,8 +16,8 @@ public class Ball {
     private final double defaultY = Game.MAP_HEIGHT/2;
     public double directionX, directionY;
     private final Game game;
-    private final double height=10;
-    private final double width=10;
+    private final double height=20;
+    private final double width=20;
     
     private boolean canMove;
     
@@ -73,6 +73,7 @@ public class Ball {
                     || (positionOnY > 2*podLength/3)) {
 
                 this.directionX *= 1;
+                this.directionY *= 1;
             }
             
             else {
@@ -91,14 +92,14 @@ public class Ball {
             //this.directionX *= -1;
             System.out.println("bod pro leveho");
             this.canMove = false;
-            //this.reset(); //resetuje sa to v triede Game zároveň pri zvýšení skóre
+            this.reset(); 
         }
         
         // toto je kolize s levou stranou
         else if (this.xPosition < 0) {
             System.out.println("bod pro praveho");
             this.canMove = false;
-            //this.reset();
+            this.reset();
         }
         
         this.xPosition = this.xPosition + (this.directionX * SPEED);
