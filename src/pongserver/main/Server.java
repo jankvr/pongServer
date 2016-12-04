@@ -127,13 +127,6 @@ public class Server implements Runnable {
         player.getSocket().close();
         
         gui.appendMessage("Socket " + player.getName() + " closed, " + playerQueue.size() + " player(s) waiting");
-        
-        
-//        gui.appendMessage("####DEBUG####");
-//        playerQueue.stream().forEach((p) -> {
-//            gui.appendMessage(p.getName());
-//        });
-//        gui.appendMessage("#############");
     }
     
     

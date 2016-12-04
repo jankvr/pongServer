@@ -13,12 +13,12 @@ import pongserver.players.PlayerThread;
  * @author User
  */
 public class CmdParser {
-    private Game game;
-    
-    
-    public CmdParser(Game game){
-        this.game = game;
-    }
+//    private final Game game;
+//    
+//    
+//    public CmdParser(Game game){
+//        this.game = game;
+//    }
     
     public void parse(PlayerThread player, String input){
         //rozdelenie stringu podľa medzier do poľa

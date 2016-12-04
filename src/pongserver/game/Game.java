@@ -107,17 +107,30 @@ public class Game implements Runnable {
             setSidesAndStart();
 
             while (true ) {
-                // tady bude kontrola prubehu hry ()
-                ball.move();
                 
+//###############################KONTROLA_PRUBEHU_HRY########################################
+                // tady bude kontrola prubehu hry ()
+                
+//###########################################################################################
+      
+
+
+//###############################POSILANI_UDAJU_O_POLOZE_MICKU###############################
+                ball.move();
                 // tato zprava se paradoxne posila hraci c.2
                 player1.sendData(ball.getCurrentPosition());
                 // a tahle naopak hraci 1 (to kvuli implementaci sendData v PlayerThread)
                 player2.sendData(ball.getCurrentPosition());
-                
+//###########################################################################################
+
+
+
+//###############################POSILANI_UDAJU_O_SKORE_ATD##################################
                 // to same... jen ted je to zakomentovane
                 // player1.sendData("TEST12");
                 // player2.sendData("TEST22");
+//###########################################################################################
+
                 // tento sleep je nutny k tomu, aby vubec ostatni vlakna dostaly moznost posilat zpravy (vlakno = PlayerThread)
                 Thread.sleep(WAIT);
 
@@ -171,7 +184,7 @@ public class Game implements Runnable {
             //zalogovat
         }
     }
-    
+    // toto asi nebude potreba
     public String getName() {
         return player1.getName() + "_" + player2.getName();
     }
