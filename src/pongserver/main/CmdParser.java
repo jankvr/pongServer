@@ -32,9 +32,38 @@ public class CmdParser {
         }        
         else{
             System.out.println("nesprávny reťazec poslaný na CmdParser:"+backup);
+        } 
+    }
+    
+    public double parsePosition(String axis, String input) {
+        String delims = " ";
+        String[] tokens = input.split(delims);  
+        
+        if (tokens[0].equals("OPPONENTPOSITION")) {
+            if (axis.equals("x")) {
+                return Double.parseDouble(tokens[1]);
+            }
+            else if (axis.equals("y")) {
+                return Double.parseDouble(tokens[2]);
+            }
+            else {
+                return 0;
+            }
+        }        
+        else {
+            return 0;
+        } 
+    }
+    
+    public String parseCommand(String input) {
+        String delims = " ";
+        String[] tokens = input.split(delims);
+        
+        if (tokens.length > 0) {
+            return tokens[0];
         }
         
-        
+        return null;
     }
     
 }

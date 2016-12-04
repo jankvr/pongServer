@@ -27,8 +27,8 @@ import pongserver.main.Server;
 public class PlayerThread implements Runnable {
     private final ReentrantLock lock =  new ReentrantLock(); 
     
-    private int xPosition;
-    private int yPosition;
+    private double xPosition;
+    private double yPosition;
     private int halfLength=50;
     private final String name;
     private final Socket socket;
@@ -38,6 +38,7 @@ public class PlayerThread implements Runnable {
     private boolean alive;
     private CmdParser parser;
     private PlayerThread opponent;
+    private Game game;
 
 
     public PlayerThread(String name, Socket socket, Server server) {
@@ -55,6 +56,8 @@ public class PlayerThread implements Runnable {
     }
     
     public void setOpponent(Game game) {
+        this.game = game;
+        
         if (this.equals(game.getPlayer1())) {
             this.opponent = game.getPlayer2();
         }
@@ -67,19 +70,19 @@ public class PlayerThread implements Runnable {
     public double getLength(){
         return halfLength*2;
     }
-    public int getxPosition() {
+    public double getxPosition() {
         return xPosition;
     }
 
-    public void setxPosition(int xPosition) {
+    public void setxPosition(double xPosition) {
         this.xPosition = xPosition;
     }
 
-    public int getyPosition() {
+    public double getyPosition() {
         return yPosition;
     }
 
-    public void setyPosition(int yPosition) {
+    public void setyPosition(double yPosition) {
         this.yPosition = yPosition;
     }
     
@@ -116,6 +119,12 @@ public class PlayerThread implements Runnable {
 
                 if (message.equals("QUIT")) {
                     alive = false;
+                }
+                
+                String command = parser.parseCommand(message);
+                
+                if (command.equals("OPPONENTPOSITION")) {
+                    this.setPosition(message);
                 }
                 
                 sendData(message);
@@ -193,14 +202,20 @@ public class PlayerThread implements Runnable {
         }
     }
     //Jaro: prípadne vymazať
-    public void receiveDataFromClient() throws IOException{
-        try{
-            lock.lock();
-            String message1 = inputStream.readUTF();
-            parser.parse(this, message1);
-        }
-        finally{
-            lock.unlock();
-        }
+//    public double receiveDataFromClient() {// throws IOException{
+//        try{
+//            lock.lock();
+//            String message1 = inputStream.readUTF();
+//            parser.parse(this, message1);
+//        }
+//        finally{
+//            lock.unlock();
+//        }
+
+//    }
+    
+    private void setPosition(String message) {
+        this.xPosition = this.parser.parsePosition("x",message);
+        this.yPosition = this.parser.parsePosition("y",message);
     }
 }

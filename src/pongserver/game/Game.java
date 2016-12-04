@@ -138,7 +138,8 @@ public class Game implements Runnable {
 
 //###############################POSILANI_UDAJU_O_SKORE_ATD##################################
                 // to same... jen ted je to zakomentovane
-                // player1.sendData("TEST12");
+                System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
+                System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
                 // player2.sendData("TEST22");
 //###########################################################################################
 
