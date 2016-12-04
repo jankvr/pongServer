@@ -22,15 +22,16 @@ public class CmdParser {
     
     public void parse(PlayerThread player, String input){
         //rozdelenie stringu podľa medzier do poľa
+        String backup = input;
         String delims = " ";
         String[] tokens = input.split(delims);  
         
 
-        if(tokens[0].equals("PADDLEPOSITION")){
+        if(tokens[0].equals("OPPONENTPOSITION")){
             player.setyPosition(Integer.parseInt(tokens[1]));
         }        
         else{
-            System.out.println("nesprávny reťazec poslaný na CmdParser");
+            System.out.println("nesprávny reťazec poslaný na CmdParser:"+backup);
         }
         
         

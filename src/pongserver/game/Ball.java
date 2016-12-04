@@ -53,6 +53,7 @@ public class Ball {
         // melo by se kontrolovat s tim, kdo ted bude odehravat
         return (this.game.getPlayer1().meets(this) ||
                 this.game.getPlayer2().meets(this));
+//return false;
     }
     
     public void move() throws InterruptedException {
@@ -115,8 +116,10 @@ public class Ball {
     }
     
     public String getCurrentPosition() {
+        //System.out.println("BALL " + this.xPosition + " " + this.yPosition);
+    
         return "BALL " + this.xPosition + " " + this.yPosition;
-    }
+        }
 
     
     

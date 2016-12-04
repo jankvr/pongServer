@@ -6,6 +6,7 @@
 package pongserver.game;
 
 import java.io.IOException;
+import pongserver.main.CmdParser;
 import pongserver.players.PlayerThread;
 
 /**
@@ -29,6 +30,8 @@ public class Game implements Runnable {
     private Thread player1Thread;
     private Thread player2Thread;
     
+//    private CmdParser parser;
+    
     private PlayerThread player1;//hráč na ľavej strane
     private PlayerThread player2;//hráč na pravej strane
 
@@ -37,6 +40,7 @@ public class Game implements Runnable {
         this.player2 = player2;
         this.ball = new Ball(this);
         this.score = new Score(this);
+//        this.parser = new CmdParser();
         
     }
     
@@ -79,8 +83,10 @@ public class Game implements Runnable {
     public void setSidesAndStart() {
         try {
             player1.getOutputStream().writeUTF("RIGHT");
+            player1.setxPosition(20);
             Thread.sleep(2000);
             player2.getOutputStream().writeUTF("LEFT");
+            player2.setxPosition(760);
             Thread.sleep(1000);
             player1.setOpponent(this);
             player2.setOpponent(this);
@@ -88,6 +94,7 @@ public class Game implements Runnable {
             player1.getOutputStream().writeUTF("START");
             player2.getOutputStream().writeUTF("START");
 
+            
         } catch (IOException | InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
@@ -122,8 +129,12 @@ public class Game implements Runnable {
                 // a tahle naopak hraci 1 (to kvuli implementaci sendData v PlayerThread)
                 player2.sendData(ball.getCurrentPosition());
 //###########################################################################################
-
-
+        
+                //server prijíma informácie o tom kde sa playeri nachádzajú
+                //JARO: chybné dvojité čítanie z jedného inputstreamu
+//                player1.receiveDataFromClient();
+//                player2.receiveDataFromClient();
+                
 
 //###############################POSILANI_UDAJU_O_SKORE_ATD##################################
                 // to same... jen ted je to zakomentovane

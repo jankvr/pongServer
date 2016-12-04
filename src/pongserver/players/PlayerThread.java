@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pongserver.game.Ball;
 import pongserver.game.Game;
+import pongserver.main.CmdParser;
 import pongserver.main.Server;
 
 /**
@@ -35,7 +36,7 @@ public class PlayerThread implements Runnable {
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
     private boolean alive;
-
+    private CmdParser parser;
     private PlayerThread opponent;
 
 
@@ -44,7 +45,7 @@ public class PlayerThread implements Runnable {
         this.socket = socket;
         this.server = server;
         this.alive = true;
-        
+                this.parser = new CmdParser();
         try {
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
@@ -83,8 +84,17 @@ public class PlayerThread implements Runnable {
     }
     
     public boolean meets(Ball ball){
-        if (ball.getyPosition()<this.yPosition+halfLength && 
-                ball.getyPosition()>this.yPosition-halfLength){
+        System.out.println("----------------");
+        System.out.println("ball xposition = "+ball.getxPosition());
+        System.out.println("ball yposition = "+ball.getyPosition());
+        System.out.println("this xposition = "+this.xPosition);
+        System.out.println("this yposition = "+this.yPosition);
+        System.out.println("this yposition+halflength = "+(this.yPosition+halfLength));
+        System.out.println("this yposition-halflength = "+(this.yPosition-halfLength));
+        
+        if ((ball.getyPosition()<this.yPosition+halfLength && 
+                ball.getyPosition()>this.yPosition-halfLength)&&
+                (ball.getxPosition()<=this.xPosition)){
             return true;
         }
         else{
@@ -180,6 +190,17 @@ public class PlayerThread implements Runnable {
         }
         finally {
              lock.unlock();
+        }
+    }
+    //Jaro: prípadne vymazať
+    public void receiveDataFromClient() throws IOException{
+        try{
+            lock.lock();
+            String message1 = inputStream.readUTF();
+            parser.parse(this, message1);
+        }
+        finally{
+            lock.unlock();
         }
     }
 }
