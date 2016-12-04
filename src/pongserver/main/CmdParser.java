@@ -17,16 +17,16 @@ public class CmdParser {
     
     
     public CmdParser(Game game){
-        this.game=game;
+        this.game = game;
     }
     
     public void parse(PlayerThread player, String input){
         //rozdelenie stringu podľa medzier do poľa
-        String delims = "[ ]";
+        String delims = " ";
         String[] tokens = input.split(delims);  
         
 
-        if(tokens[0]=="PADDLEPOSITION"){
+        if(tokens[0].equals("PADDLEPOSITION")){
             player.setyPosition(Integer.parseInt(tokens[1]));
         }        
         else{

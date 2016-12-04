@@ -12,13 +12,12 @@ package pongserver.game;
 public class Ball {
     private double xPosition;
     private double yPosition;
-    private double defaultX = 50;
-    private double defaultY = 50;
+    private final double defaultX = Game.MAP_WIDTH/2;
+    private final double defaultY = Game.MAP_HEIGHT/2;
     public double directionX, directionY;
     private final Game game;
-    //private final Pong ps;
-    private double height=10;
-    private double width=10;
+    private final double height=10;
+    private final double width=10;
     
     private boolean canMove;
     
@@ -38,21 +37,21 @@ public class Ball {
         return xPosition;
     }
 
-    public void setxPosition(int xPosition) {
-        this.xPosition = xPosition;
-    }
-
     public double getyPosition() {
         return yPosition;
     }
 
-    public void setyPosition(int yPosition) {
+    public void setxPosition(double xPosition) {
+        this.xPosition = xPosition;
+    }
+    
+    public void setyPosition(double yPosition) {
         this.yPosition = yPosition;
     }
 
     private boolean isCollisionWithPod() {
         // melo by se kontrolovat s tim, kdo ted bude odehravat
-        return (this.game.getPlayer1().meets(this)||
+        return (this.game.getPlayer1().meets(this) ||
                 this.game.getPlayer2().meets(this));
     }
     
@@ -73,18 +72,14 @@ public class Ball {
                     || (positionOnY > 2*podLength/3)) {
 
                 this.directionX *= 1;
-                System.out.println("okraj");
             }
             
             else {
                 this.directionX *= 1;
-                
-                System.out.println("stred");
-            }
-            
+            }  
         }
 
-        if (this.defaultY < 0) {
+        if (this.yPosition < 0) {
             this.directionY *= -1;
         }
         else if ((this.yPosition + this.width) > Game.MAP_HEIGHT) {
@@ -106,10 +101,7 @@ public class Ball {
         }
         
         this.xPosition = this.xPosition + (this.directionX * SPEED);
-        this.yPosition = this.yPosition + (this.directionY * SPEED);
-        //this.sprite.setXY(position.x, position.y);
-        
-        
+        this.yPosition = this.yPosition + (this.directionY * SPEED);        
     }
     
     public boolean canMove() {
@@ -117,9 +109,9 @@ public class Ball {
     }    
     
     public void reset(){
-        xPosition=defaultX;
-        yPosition=defaultY;
-        this.canMove=true;
+        xPosition = defaultX;
+        yPosition = defaultY;
+        this.canMove = true;
     }
     
     public String getCurrentPosition() {

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Objects;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pongserver.game.Ball;
@@ -23,6 +24,8 @@ import pongserver.main.Server;
  * @author User
  */
 public class PlayerThread implements Runnable {
+    private final ReentrantLock lock =  new ReentrantLock(); 
+    
     private int xPosition;
     private int yPosition;
     private int halfLength=50;
@@ -32,8 +35,7 @@ public class PlayerThread implements Runnable {
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
     private boolean alive;
-    
-    private Game game;
+
     private PlayerThread opponent;
 
 
@@ -42,6 +44,7 @@ public class PlayerThread implements Runnable {
         this.socket = socket;
         this.server = server;
         this.alive = true;
+        
         try {
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
@@ -50,16 +53,14 @@ public class PlayerThread implements Runnable {
         }
     }
     
-    public void setGame(Game game) {
-        this.game = game;
-        
+    public void setOpponent(Game game) {
         if (this.equals(game.getPlayer1())) {
             this.opponent = game.getPlayer2();
         }
         else {
             this.opponent = game.getPlayer1();
         }
-        System.out.println("My name is " + name + "and i am sending this to " + this.opponent.getName());
+
     }
     
     public double getLength(){
@@ -103,20 +104,18 @@ public class PlayerThread implements Runnable {
 
                 String message = inputStream.readUTF();
 
-                opponent.getOutputStream().writeUTF(message);
-                
                 if (message.equals("QUIT")) {
-                    
                     alive = false;
                 }
                 
+                sendData(message);
                 
-                
-                // do the magic
+                Thread.sleep(2);
+                }
             }
-        } 
+        
         catch (SocketException ex) {
-            //System.out.println(ex);
+            System.out.println(ex);
         }
         catch (EOFException ex) {
             System.out.println(ex);
@@ -124,7 +123,7 @@ public class PlayerThread implements Runnable {
         catch (IOException ex) {
             System.out.println(ex);
         }
-        catch (Exception ex) {
+        catch (InterruptedException ex) {
             Logger.getLogger(PlayerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally {
@@ -169,5 +168,18 @@ public class PlayerThread implements Runnable {
     
     public DataInputStream getInputStream() {
         return inputStream;
+    }
+    
+    public void sendData(String dataToSend) throws IOException {
+        // zamknuti posilani zpravy oponentovi
+        try {
+            lock.lock();
+
+            opponent.getOutputStream().writeUTF(dataToSend);
+            opponent.getOutputStream().flush();
+        }
+        finally {
+             lock.unlock();
+        }
     }
 }

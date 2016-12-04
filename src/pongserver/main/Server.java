@@ -31,9 +31,12 @@ public class Server implements Runnable {
     private static final int NEEDED_PLAYERS = 2;
     
     
+    
+    
     public Server(int port, IGui gui) {
         
         try {
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             this.gui = gui;
             this.outputStreams = new HashMap<>();
             this.playerQueue = new ArrayList<>();
@@ -68,7 +71,6 @@ public class Server implements Runnable {
             serverStatus();
             
             if (playerQueue.size() >= NEEDED_PLAYERS) {
-                gui.appendMessage(" - Starting the game");
                 //start the game
                 
                 //remove first two players from list
@@ -133,5 +135,6 @@ public class Server implements Runnable {
 //        });
 //        gui.appendMessage("#############");
     }
+    
     
 }

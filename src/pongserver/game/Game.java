@@ -6,9 +6,6 @@
 package pongserver.game;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.animation.AnimationTimer;
 import pongserver.players.PlayerThread;
 
 /**
@@ -16,24 +13,31 @@ import pongserver.players.PlayerThread;
  * @author User
  */
 public class Game implements Runnable {
-    private PlayerThread player1;//hráč na ľavej strane
-    private PlayerThread player2;//hráč na pravej strane
+    
     private Ball ball;
     private Score score;
     private PlayerThread winner = null;
+    
     private static final int WIDTH = 800; 
     private static final int HEIGHT = WIDTH/4*3;
     private static final double SCALE = 1;
+    private static final int WAIT = 8;
+    
     public static final int MAP_WIDTH = WIDTH;
     public static final int MAP_HEIGHT = HEIGHT;
+    
     private Thread player1Thread;
     private Thread player2Thread;
+    
+    private PlayerThread player1;//hráč na ľavej strane
+    private PlayerThread player2;//hráč na pravej strane
 
     public Game(PlayerThread player1, PlayerThread player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.ball = new Ball(this);
         this.score = new Score(this);
+        
     }
     
 //    public void setWinner(Player winner){
@@ -72,23 +76,19 @@ public class Game implements Runnable {
         this.score = score;
     }
 
-    public void setSides() {
+    public void setSidesAndStart() {
         try {
             player1.getOutputStream().writeUTF("RIGHT");
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             player2.getOutputStream().writeUTF("LEFT");
-            Thread.sleep(100);
-            player1.setGame(this);
-            player2.setGame(this);
+            Thread.sleep(1000);
+            player1.setOpponent(this);
+            player2.setOpponent(this);
             Thread.sleep(100);
             player1.getOutputStream().writeUTF("START");
             player2.getOutputStream().writeUTF("START");
-            
-            
-            
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        } catch (InterruptedException ex) {
+
+        } catch (IOException | InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -96,33 +96,40 @@ public class Game implements Runnable {
     @Override
     public void run() {
         try {
+            // nastartuj vlakna
             player1Thread = new Thread(player1);
             player2Thread = new Thread(player2);
             
             player1Thread.start();
             player2Thread.start();
             
-            setSides();
-            //sendStartMessage();
+            // a hru
+            setSidesAndStart();
+
             while (true ) {
-                System.out.println("asdf");
+                // tady bude kontrola prubehu hry ()
+                ball.move();
                 
-                player1Thread.join();
-                player2Thread.join();
+                // tato zprava se paradoxne posila hraci c.2
+                player1.sendData(ball.getCurrentPosition());
+                // a tahle naopak hraci 1 (to kvuli implementaci sendData v PlayerThread)
+                player2.sendData(ball.getCurrentPosition());
                 
-                player1.getOutputStream().writeUTF("TEST1");
-                player2.getOutputStream().writeUTF("TEST2");
+                // to same... jen ted je to zakomentovane
+                // player1.sendData("TEST12");
+                // player2.sendData("TEST22");
+                // tento sleep je nutny k tomu, aby vubec ostatni vlakna dostaly moznost posilat zpravy (vlakno = PlayerThread)
+                Thread.sleep(WAIT);
+
             }
+            
+            //
             //priebeh hry ak sú obaja hráči prítomní
             //while(player1!=null && player2!=null) {
 //            new AnimationTimer() {
 //                @Override
 //                public void handle(long currentNanoTime) {
 //                    try {
-//
-//                        System.out.println(player1.getName() + " message: " + p1);
-//                        System.out.println(player2.getName() + " message: " + p2);
-//                        
 //                        //ak lopta je za hráčovim pádlom
 //                        if(player1.getxPosition()>ball.getxPosition()){
 //                            //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu
@@ -160,10 +167,9 @@ public class Game implements Runnable {
 //            
 //            
             
-        } catch(Exception e){
-            
+        } catch(IOException | InterruptedException e){
+            //zalogovat
         }
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public String getName() {
