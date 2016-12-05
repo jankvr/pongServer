@@ -86,6 +86,10 @@ public class Score {
     
     public void reset(){
         rec1=0;
-        rec1=0;
+        rec2=0;
+    }
+    
+    public String getScoreInfo(){
+        return rec1 +" : "+rec2;
     }
 }

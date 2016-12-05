@@ -112,8 +112,8 @@ public class Game implements Runnable {
             
             // a hru
             setSidesAndStart();
-//            boolean willToContinue=true; //vôľa pokračovať
-//            while(willToContinue){
+            boolean willToContinue=true; //vôľa pokračovať
+            while(willToContinue){
                 while (!score.isMax() /*true*/) {
 
     //###############################KONTROLA_PRUBEHU_HRY########################################
@@ -154,9 +154,12 @@ public class Game implements Runnable {
             //TODO: tlačidlo, či chcú novú hru
                 //podľa neho sa určí, či sa willToContinue nastaví na false a nová hra nebude začatá
                 
+                
+                willToContinue = true;
+                System.out.println("Skóre je" +score.getScoreInfo());
                 score.reset();
-//                setSidesAndStart();
-//            }
+                setSidesAndStart();
+            }
             
             
             //
