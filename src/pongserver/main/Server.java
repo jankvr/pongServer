@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pongserver.game.Game;
 import pongserver.players.PlayerThread;
 
@@ -29,6 +31,7 @@ public class Server implements Runnable {
     private IGui gui;
     private int index;
     private static final int NEEDED_PLAYERS = 2;
+    private Login login;
     
     
     
@@ -41,7 +44,7 @@ public class Server implements Runnable {
             this.outputStreams = new HashMap<>();
             this.playerQueue = new ArrayList<>();
             this.serverSocket = new ServerSocket(port);
-            
+            this.login = new Login();
             this.index = 0;
 
             new Thread(this).start();
@@ -67,6 +70,33 @@ public class Server implements Runnable {
             DataOutputStream outStream = new DataOutputStream(socket.getOutputStream());
             //save outputstream
             outputStreams.put(playerThread, outStream);
+            
+            boolean loginIsFine = false;
+            while(!loginIsFine){
+                String loginMessage = playerThread.getInputStream().readUTF(); 
+                String[] tokens = loginMessage.split(" ");  
+                
+                    if(tokens[0].equals("LOGIN")){
+                        if(login.check(tokens[1], tokens[2])){
+                            loginIsFine=true;
+                            outStream.writeUTF("LOGIN OK");
+
+                            
+
+                        }
+                        else{
+                            outStream.writeUTF("LOGIN WRONG");
+                            
+                        }
+
+                    }
+                    else{
+                        System.out.println("What the hell, man?");
+                        
+                    }
+                
+            }
+            
             
             serverStatus();
             
