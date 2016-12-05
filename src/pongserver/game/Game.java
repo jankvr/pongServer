@@ -126,9 +126,14 @@ public class Game implements Runnable {
     //###############################POSILANI_UDAJU_O_POLOZE_MICKU###############################
                     ball.move();
                     // tato zprava se paradoxne posila hraci c.2
-                    player1.sendData(ball.getCurrentPosition());
+//                    player1.sendData(ball.getCurrentPosition());  //ODKOMENTOVAŤ ak 134 135 blbnú
                     // a tahle naopak hraci 1 (to kvuli implementaci sendData v PlayerThread)
-                    player2.sendData(ball.getCurrentPosition());
+//                    player2.sendData(ball.getCurrentPosition());   //ODKOMENTOVAŤ ak 134 135 blbnú
+                    
+                    //System.out.println("BALLPOSITIONANDSCORE "+ball.getxPosition()+" "+ball.getyPosition()+" "+score.getScoreInfo());
+                    player1.sendData("BALLPOSITIONANDSCORE "+ball.getxPosition()+" "+ball.getyPosition()+" "+score.getScoreInfo());
+                    player2.sendData("BALLPOSITIONANDSCORE "+ball.getxPosition()+" "+ball.getyPosition()+" "+score.getScoreInfo());
+                    
     //###########################################################################################
 
                     //server prijíma informácie o tom kde sa playeri nachádzajú
@@ -141,6 +146,14 @@ public class Game implements Runnable {
                     // to same... jen ted je to zakomentovane
                     System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
                     System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
+                    
+                    
+                    
+                    //posielanie údajov o skóre
+//                    player1.sendData("SCORE "+getScore().getScoreInfo());
+//                    player2.sendData("SCORE "+getScore().getScoreInfo());
+                    
+                    
                     // player2.sendData("TEST22");
     //###########################################################################################
 

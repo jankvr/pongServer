@@ -90,6 +90,6 @@ public class Score {
     }
     
     public String getScoreInfo(){
-        return rec1 +" : "+rec2;
+        return rec1 +" "+rec2;
     }
 }
