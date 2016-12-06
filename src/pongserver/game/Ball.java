@@ -69,13 +69,21 @@ public class Ball {
         
             double positionOnY = this.yPosition - this.game.getPlayer1().getyPosition();
             
-            if ((positionOnY + this.height <= podLength/3) 
-                    || (positionOnY > 2*podLength/3)) {
-
-                this.directionX *= 1;
-                this.directionY *= 1;
+//            if ((positionOnY + this.height <= podLength/3) 
+//                    || (positionOnY > 2*podLength/3)) {
+//
+//                this.directionX *= 1;
+//                this.directionY *= 1;
+//            }
+            if(positionOnY+this.height<=podLength/3){
+                if(this.directionY>0){this.directionY*=-1;}
+                else {this.directionY*=1;}
             }
-            
+            else if (positionOnY > 2*podLength/3){
+                
+                     if(this.directionY<0){this.directionY*=-1;}
+                else {this.directionY*=1;}
+            }
             else {
                 this.directionX *= 1;
             }  
