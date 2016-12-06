@@ -73,6 +73,11 @@ public class Server implements Runnable {
             
             boolean loginIsFine = false;
             while(!loginIsFine){
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 String loginMessage = playerThread.getInputStream().readUTF(); 
                 String[] tokens = loginMessage.split(" ");  
                 

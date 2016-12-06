@@ -144,8 +144,8 @@ public class Game implements Runnable {
 
     //###############################POSILANI_UDAJU_O_SKORE_ATD##################################
                     // to same... jen ted je to zakomentovane
-                    System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
-                    System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
+//                    System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
+//                    System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
                     
                     
                     
@@ -169,7 +169,7 @@ public class Game implements Runnable {
                 
                 
                 willToContinue = true;
-                System.out.println("Skóre je" +score.getScoreInfo());
+//                System.out.println("Skóre je" +score.getScoreInfo());
                 score.reset();
                 setSidesAndStart();
             }
