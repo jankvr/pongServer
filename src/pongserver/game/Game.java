@@ -7,6 +7,7 @@ package pongserver.game;
 
 import java.io.IOException;
 import pongserver.main.CmdParser;
+import pongserver.main.Login;
 import pongserver.players.PlayerThread;
 
 /**
@@ -34,12 +35,15 @@ public class Game implements Runnable {
     
     private PlayerThread player1;//hráč na ľavej strane
     private PlayerThread player2;//hráč na pravej strane
+    
+   private Login login;
 
-    public Game(PlayerThread player1, PlayerThread player2) {
+    public Game(PlayerThread player1, PlayerThread player2, Login login) {
         this.player1 = player1;
         this.player2 = player2;
         this.ball = new Ball(this);
         this.score = new Score(this);
+        this.login = login;
 //        this.parser = new CmdParser();
         
     }
@@ -227,4 +231,15 @@ public class Game implements Runnable {
     public String getName() {
         return player1.getName() + "_" + player2.getName();
     }
+
+    
+    /**
+     * Login na to, aby sa hráč mohol pri odhlásení odobrať zo zoznamu prihlásených klientov
+     * @return 
+     */
+    public Login getLogin() {
+        return login;
+    }
+    
+    
 }

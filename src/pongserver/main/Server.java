@@ -82,16 +82,19 @@ public class Server implements Runnable {
                 String[] tokens = loginMessage.split(" ");  
                 
                     if(tokens[0].equals("LOGIN")){
-                        if(login.check(tokens[1], tokens[2])){
+                        if(login.check(tokens[1], tokens[2]).equals("OK")){
                             loginIsFine=true;
                             outStream.writeUTF("LOGIN OK");
-
+                            playerThread.setName(tokens[1]);
                             
 
                         }
+                        else if(login.check(tokens[1], tokens[2]).equals("ALREADYCONNECTED")){
+                            outStream.writeUTF("LOGIN ALREADYCONNECTED");
+                            
+                        }
                         else{
                             outStream.writeUTF("LOGIN WRONG");
-                            
                         }
 
                     }
@@ -111,7 +114,7 @@ public class Server implements Runnable {
                 //remove first two players from list
                 List<PlayerThread> retrievePlayers = this.retrievePlayers();
                 
-                Game game = new Game(retrievePlayers.get(0), retrievePlayers.get(1));
+                Game game = new Game(retrievePlayers.get(0), retrievePlayers.get(1),login);
                 new Thread(game).start();
                 
                 gui.appendMessage("####STARTING_GAME####");

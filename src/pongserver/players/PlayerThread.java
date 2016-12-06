@@ -30,7 +30,7 @@ public class PlayerThread implements Runnable {
     private double xPosition;
     private double yPosition;
     private int length=120;
-    private final String name;
+    private /*final*/ String name;
     private final Socket socket;
     private final Server server;
     private DataInputStream inputStream;
@@ -109,6 +109,10 @@ public class PlayerThread implements Runnable {
         return name;
     }
     
+    public void setName(String name){
+        this.name=name;
+    }
+    
     @Override
     public void run() {
         try {
@@ -119,6 +123,7 @@ public class PlayerThread implements Runnable {
 
                 if (message.equals("QUIT")) {
                     alive = false;
+                    game.getLogin().removeDisconnectedUser(this.name);
                 }
                 
                 String command = parser.parseCommand(message);
@@ -135,12 +140,15 @@ public class PlayerThread implements Runnable {
         
         catch (SocketException ex) {
             System.out.println(ex);
+            game.getLogin().removeDisconnectedUser(this.name);
+            
         }
         catch (EOFException ex) {
             System.out.println(ex);
         } 
         catch (IOException ex) {
             System.out.println(ex);
+            game.getLogin().removeDisconnectedUser(this.name);
         }
         catch (InterruptedException ex) {
             Logger.getLogger(PlayerThread.class.getName()).log(Level.SEVERE, null, ex);

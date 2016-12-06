@@ -5,7 +5,9 @@
  */
 package pongserver.main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,6 +16,7 @@ import java.util.Map;
  */
 public class Login {
     private Map userMap; 
+    private List connectedUsers;
 
     public Login() {
         userMap = new HashMap<String, String>();
@@ -24,16 +27,32 @@ public class Login {
         userMap.put("e", "e");
         userMap.put("andrej", "hunter2");
         
+        connectedUsers = new ArrayList<String>();
+        
     }
     
-    public boolean check(String username, String password){
+    public String check(String username, String password){
        
-        if(userMap.containsKey(username) && userMap.get(username).equals(password)){
+        if(userMap.containsKey(username) && userMap.get(username).equals(password)
+                &&!connectedUsers.contains(username)){
             System.out.println("I received a fine username");
-            return true;
+            connectedUsers.add(username);
+            return "OK";
+        }
+        else if(userMap.containsKey(username) && userMap.get(username).equals(password)
+                &&connectedUsers.contains(username)){
+            System.out.println("Fine username, but already connected m8");
+            return "ALREADYCONNECTED";
         }
         System.out.println("This username is bollocks");
-        return false;
+        return "WRONG";
+    }
+    
+    
+    public void removeDisconnectedUser(String username){
+        if(connectedUsers.contains(username)){
+            connectedUsers.remove(username);
+        }
     }
     
     
