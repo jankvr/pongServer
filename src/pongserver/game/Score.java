@@ -42,9 +42,15 @@ public class Score {
     }
     
     public String getWinnerInfo(){
-        if(rec1>rec2){return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;}
-        if(rec1<rec2){return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;}
-        else{return "nobody, it's a tie. The score is "+rec1+":"+rec2;}
+        if(rec1>rec2) {
+            return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;
+        }
+        if(rec1<rec2) {
+            return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;
+        }
+        else {
+            return "nobody, it's a tie. The score is "+rec1+":"+rec2;
+        }
     }
     
     public int getRec1() {

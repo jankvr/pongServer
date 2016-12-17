@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import pongserver.game.Game;
 import pongserver.players.PlayerThread;
 
@@ -30,9 +31,7 @@ public class Server implements Runnable {
     private int index;
     private static final int NEEDED_PLAYERS = 2;
     private Login login;
-    
-    
-    
+    private static final Logger LOG = Logger.getLogger(Server.class.getName());
     
     public Server(int port, IGui gui) {
         
@@ -48,11 +47,13 @@ public class Server implements Runnable {
             new Thread(this).start();
         } catch (IOException ex) {
             this.gui.appendMessage(ex.getMessage());
+            LOG.fatal(ex.getMessage());
         }
     }
     
     private void listen() throws IOException {
         gui.appendMessage("Starting to listen on " + serverSocket);
+        LOG.info("Starting to listen on " + serverSocket);
         
         //infinite loop
         while (true) {
@@ -64,7 +65,7 @@ public class Server implements Runnable {
             
             playerQueue.add(playerThread);
             gui.appendMessage("Connected on " + socket);
-
+            LOG.info("Connected on " + socket);
             DataOutputStream outStream = new DataOutputStream(socket.getOutputStream());
             //save outputstream
             outputStreams.put(playerThread, outStream);
@@ -96,7 +97,7 @@ public class Server implements Runnable {
 
                     }
                     else{
-                        System.out.println("What the hell, man?");
+                        LOG.warn("Bad username");
                         
                     }
                 
@@ -118,6 +119,8 @@ public class Server implements Runnable {
                 gui.appendMessage(retrievePlayers.get(0).getName());
                 gui.appendMessage(retrievePlayers.get(1).getName());
                 gui.appendMessage("#####################");
+                
+                LOG.info("STARTING THE GAME. PLAYERS: " + retrievePlayers.get(0).getName() + ", " + retrievePlayers.get(1).getName());
 
                 serverStatus();
             }
@@ -135,6 +138,7 @@ public class Server implements Runnable {
     
     public void serverStatus() {
         gui.appendMessage("Current player status on server: " + playerQueue.size() + " player(s) waiting");
+        LOG.info("Current player status on server: " + playerQueue.size() + " player(s) waiting");
     }
     
     public List<PlayerThread> retrievePlayers() {
@@ -162,6 +166,7 @@ public class Server implements Runnable {
         player.getSocket().close();
         
         gui.appendMessage("Socket " + player.getName() + " closed, " + playerQueue.size() + " player(s) waiting");
+        LOG.info("Socket " + player.getName() + " closed, " + playerQueue.size() + " player(s) waiting");
     }
     
     

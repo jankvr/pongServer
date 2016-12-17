@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import pongserver.game.Ball;
 import pongserver.game.Game;
 import pongserver.main.CmdParser;
+import pongserver.main.Login;
 import pongserver.main.Server;
 
 /**
@@ -39,6 +40,8 @@ public class PlayerThread implements Runnable {
     private CmdParser parser;
     private PlayerThread opponent;
     private Game game;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PlayerThread.class.getName());
+    
 
 
     public PlayerThread(String name, Socket socket, Server server) {
@@ -51,7 +54,7 @@ public class PlayerThread implements Runnable {
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException ex) {
-            Logger.getLogger(PlayerThread.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.fatal(ex.getMessage());
         }
     }
     
@@ -133,19 +136,16 @@ public class PlayerThread implements Runnable {
             }
         
         catch (SocketException ex) {
-            System.out.println(ex);
+            LOG.fatal(ex.getMessage());
             game.getLogin().removeDisconnectedUser(this.name);
             
-        }
-        catch (EOFException ex) {
-            System.out.println(ex);
         } 
-        catch (IOException ex) {
-            System.out.println(ex);
-            game.getLogin().removeDisconnectedUser(this.name);
+        catch (EOFException | InterruptedException ex) {
+            LOG.fatal(ex.getMessage());
         }
-        catch (InterruptedException ex) {
-            Logger.getLogger(PlayerThread.class.getName()).log(Level.SEVERE, null, ex);
+        catch (IOException ex) {
+            LOG.fatal(ex.getMessage());
+            game.getLogin().removeDisconnectedUser(this.name);
         }
         finally {
             try {

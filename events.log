@@ -1,0 +1,3 @@
+2016-12-17 11:22:51  INFO [Thread-4] (Server.java:56) - Starting to listen on ServerSocket[addr=0.0.0.0/0.0.0.0,localport=5000]
+2016-12-17 11:23:00  INFO [Thread-4] (Server.java:68) - Connected on Socket[addr=/127.0.0.1,port=4731,localport=5000]
+2016-12-17 11:23:04  INFO [Thread-4] (Login.java:50) - Bad username: asdf

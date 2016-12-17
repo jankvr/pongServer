@@ -6,6 +6,7 @@
 package pongserver.game;
 
 import java.io.IOException;
+import org.apache.log4j.Logger;
 import pongserver.main.Login;
 import pongserver.players.PlayerThread;
 
@@ -14,6 +15,8 @@ import pongserver.players.PlayerThread;
  * @author User
  */
 public class Game implements Runnable {
+    
+    private static final Logger LOG = Logger.getLogger(Game.class.getName());
     
     private Ball ball;
     private Score score;
@@ -97,7 +100,7 @@ public class Game implements Runnable {
 
             
         } catch (IOException | InterruptedException ex) {
-            System.out.println(ex.getMessage());
+            LOG.fatal(ex.getMessage());
         }
     }
 
@@ -113,18 +116,11 @@ public class Game implements Runnable {
             
             // a hru
             setSidesAndStart();
-            boolean willToContinue=true; //vôľa pokračovať
+            boolean willToContinue = true; //vôľa pokračovať
             while(willToContinue){
-                while (!score.isMax() /*true*/) {
+                while (!score.isMax()) {
 
-    //###############################KONTROLA_PRUBEHU_HRY########################################
-                    // tady bude kontrola prubehu hry ()
-
-    //###########################################################################################
-
-
-
-    //###############################POSILANI_UDAJU_O_POLOZE_MICKU###############################
+    //###############################POSILANI_UDAJU_O_POLOZE_MICKU_A_SKORE######################
                     ball.move();
                     // tato zprava se paradoxne posila hraci c.2
 //                    player1.sendData(ball.getCurrentPosition());  //ODKOMENTOVAŤ ak 134 135 blbnú
@@ -135,30 +131,6 @@ public class Game implements Runnable {
                     player1.sendData("BALLPOSITIONANDSCORE "+ball.getxPosition()+" "+ball.getyPosition()+" "+score.getScoreInfo());
                     player2.sendData("BALLPOSITIONANDSCORE "+ball.getxPosition()+" "+ball.getyPosition()+" "+score.getScoreInfo());
                     
-    //###########################################################################################
-
-                    //server prijíma informácie o tom kde sa playeri nachádzajú
-                    //JARO: chybné dvojité čítanie z jedného inputstreamu
-    //                player1.receiveDataFromClient();
-    //                player2.receiveDataFromClient();
-
-
-    //###############################POSILANI_UDAJU_O_SKORE_ATD##################################
-                    // to same... jen ted je to zakomentovane
-//                    System.out.println(player1.getName() + " position: " + player1.getxPosition() + " " + player1.getyPosition());
-//                    System.out.println(player2.getName() + " position: " + player2.getxPosition() + " " + player2.getyPosition());
-                    
-                    
-                    
-                    //posielanie údajov o skóre
-//                    player1.sendData("SCORE "+getScore().getScoreInfo());
-//                    player2.sendData("SCORE "+getScore().getScoreInfo());
-                    
-                    
-                    // player2.sendData("TEST22");
-    //###########################################################################################
-
-                    // tento sleep je nutny k tomu, aby vubec ostatni vlakna dostaly moznost posilat zpravy (vlakno = PlayerThread)
                     Thread.sleep(WAIT);
 
                 }
@@ -170,58 +142,13 @@ public class Game implements Runnable {
                 
                 
                 willToContinue = true;
-//                System.out.println("Skóre je" +score.getScoreInfo());
                 score.reset();
                 setSidesAndStart();
             }
             
-            
-            //
-            //priebeh hry ak sú obaja hráči prítomní
-            //while(player1!=null && player2!=null) {
-//            new AnimationTimer() {
-//                @Override
-//                public void handle(long currentNanoTime) {
-//                    try {
-//                        //ak lopta je za hráčovim pádlom
-//                        if(player1.getxPosition()>ball.getxPosition()){
-//                            //zvýšim mu skóre pokiaľ nie je maximálne, a resetujem loptu
-//                            if(score.increaseRec2(1)){
-//                                ball.reset();
-//                            }
-//                            //ukončím celý cyklus while v prípade že už sa mu nedá zvýšiť skóre, teda dosiahlo maximum
-//                            else{
-//                                //break;
-//                            }
-//                        }
-//                        
-//                        //to isté aj pre hráča 2
-//                        if(player2.getxPosition()<ball.getxPosition()){
-//                            if(score.increaseRec2(1)){
-//                                ball.reset();
-//                            }
-//                            else{
-//                                //winner = player1;
-////                        System.out.println("Player1 is the winner");
-////break;
-//                            }
-//                        }   } catch (IOException ex) {
-//                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//
-//                
-//            }
-//            };
-//            //hra skončila, buď jeden hráč dosiahol maximálne skóre
-//            //alebo už jeden hráč nie je prítomný
-//           
-//            System.out.println("Game is over. The winner is "
-//                    +score.getWinnerInfo());  
-//            
-//            
-            
+                       
         } catch(IOException | InterruptedException e){
-            //zalogovat
+            LOG.fatal(e.getMessage());
         }
     }
     // toto asi nebude potreba

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -17,7 +18,9 @@ import java.util.Map;
 public class Login {
     private final Map userMap; 
     private final List connectedUsers;
-
+    private static final Logger LOG = Logger.getLogger(Login.class.getName());
+    
+    
     public Login() {
         userMap = new HashMap<>();
         userMap.put("a", "a");
@@ -35,16 +38,16 @@ public class Login {
        
         if(userMap.containsKey(username) && userMap.get(username).equals(password)
                 &&!connectedUsers.contains(username)){
-            System.out.println("I received a fine username");
+            LOG.info("Received a fine username - username: " + username);
             connectedUsers.add(username);
             return "OK";
         }
         else if(userMap.containsKey(username) && userMap.get(username).equals(password)
                 &&connectedUsers.contains(username)){
-            System.out.println("Fine username, but already connected m8");
+            System.out.println("Already connected - username: " + username);
             return "ALREADYCONNECTED";
         }
-        System.out.println("This username is bollocks");
+        LOG.info("Bad username: " + username);
         return "WRONG";
     }
     

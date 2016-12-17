@@ -98,7 +98,7 @@ public class Ball {
         // toto je jen kolize s pravou stranou, od te se nebude odrazet
         else if ((this.xPosition + this.height) > Game.MAP_WIDTH) {
             //this.directionX *= -1;
-            System.out.println("bod pro leveho");
+            //System.out.println("bod pro leveho");
             game.getScore().increaseRec1(1);
             this.canMove = false;
             this.reset(); 
@@ -128,10 +128,7 @@ public class Ball {
     
     public String getCurrentPosition() {
         //System.out.println("BALL " + this.xPosition + " " + this.yPosition);
-    
         return "BALL " + this.xPosition + " " + this.yPosition;
-        }
+    }
 
-    
-    
 }
