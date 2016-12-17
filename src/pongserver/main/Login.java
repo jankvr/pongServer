@@ -15,11 +15,11 @@ import java.util.Map;
  * @author Jaroslav
  */
 public class Login {
-    private Map userMap; 
-    private List connectedUsers;
+    private final Map userMap; 
+    private final List connectedUsers;
 
     public Login() {
-        userMap = new HashMap<String, String>();
+        userMap = new HashMap<>();
         userMap.put("a", "a");
         userMap.put("b", "b");
         userMap.put("c", "c");
@@ -27,7 +27,7 @@ public class Login {
         userMap.put("e", "e");
         userMap.put("andrej", "hunter2");
         
-        connectedUsers = new ArrayList<String>();
+        connectedUsers = new ArrayList<>();
         
     }
     

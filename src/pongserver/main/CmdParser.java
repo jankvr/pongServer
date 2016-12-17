@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package pongserver.main;
-import pongserver.game.Game;
 import pongserver.players.PlayerThread;
 
 
@@ -40,14 +39,13 @@ public class CmdParser {
         String[] tokens = input.split(delims);  
         
         if (tokens[0].equals("OPPONENTPOSITION")) {
-            if (axis.equals("x")) {
-                return Double.parseDouble(tokens[1]);
-            }
-            else if (axis.equals("y")) {
-                return Double.parseDouble(tokens[2]);
-            }
-            else {
-                return 0;
+            switch (axis) {
+                case "x":
+                    return Double.parseDouble(tokens[1]);
+                case "y":
+                    return Double.parseDouble(tokens[2]);
+                default:
+                    return 0;
             }
         }        
         else {

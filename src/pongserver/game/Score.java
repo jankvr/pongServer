@@ -13,7 +13,7 @@ public class Score {
     private int rec1 = 0;//skóre hráča 1 (ľavého)
     private int rec2 = 0;//skóre hráča 2 (pravého)
     private int max = 10;//maximálne skóre 1 hráča
-    private Game game;
+    private final Game game;
 
     public Score(Game game) {
         this.game=game;
@@ -27,10 +27,7 @@ public class Score {
      */
     public boolean increaseRec1(int points){
         rec1=rec1+points;
-        if(rec1==max){
-            return false;
-        }        
-        return true;
+        return rec1 != max;
     }
     
         /**
@@ -41,10 +38,7 @@ public class Score {
      */
     public boolean increaseRec2(int points){
         rec2=rec2+points;
-        if(rec2==max){
-            return false;
-        }        
-        return true;
+        return rec2 != max;
     }
     
     public String getWinnerInfo(){
@@ -78,10 +72,7 @@ public class Score {
     }    
     
     public boolean isMax(){
-        if(rec1==max || rec2==max){
-            return true;
-        }
-        return false;
+        return rec1==max || rec2==max;
     }
     
     public void reset(){

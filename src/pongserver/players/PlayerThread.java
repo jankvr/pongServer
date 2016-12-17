@@ -94,15 +94,9 @@ public class PlayerThread implements Runnable {
 //        System.out.println("this yposition = "+this.yPosition);
 //        System.out.println("this yposition+halflength = "+(this.yPosition+halfLength));
 //        System.out.println("this yposition-halflength = "+(this.yPosition-halfLength));
-        
-        if ((ball.getyPosition()<this.yPosition+length && 
+        return (ball.getyPosition()<this.yPosition+length && 
                 ball.getyPosition()>this.yPosition)&&
-                (ball.getxPosition()==this.xPosition)){
-            return true;
-        }
-        else{
-            return false;
-        }
+                (ball.getxPosition()==this.xPosition);
     }
 
     public String getName() {

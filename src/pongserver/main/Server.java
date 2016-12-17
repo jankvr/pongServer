@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import pongserver.game.Game;
 import pongserver.players.PlayerThread;
 
@@ -82,20 +80,19 @@ public class Server implements Runnable {
                 String[] tokens = loginMessage.split(" ");  
                 
                     if(tokens[0].equals("LOGIN")){
-                        if(login.check(tokens[1], tokens[2]).equals("OK")){
+                    switch (login.check(tokens[1], tokens[2])) {
+                        case "OK":
                             loginIsFine=true;
                             outStream.writeUTF("LOGIN OK");
                             playerThread.setName(tokens[1]);
-                            
-
-                        }
-                        else if(login.check(tokens[1], tokens[2]).equals("ALREADYCONNECTED")){
+                            break;
+                        case "ALREADYCONNECTED":
                             outStream.writeUTF("LOGIN ALREADYCONNECTED");
-                            
-                        }
-                        else{
+                            break;
+                        default:
                             outStream.writeUTF("LOGIN WRONG");
-                        }
+                            break;
+                    }
 
                     }
                     else{

@@ -6,7 +6,6 @@
 package pongserver.game;
 
 import java.io.IOException;
-import pongserver.main.CmdParser;
 import pongserver.main.Login;
 import pongserver.players.PlayerThread;
 
@@ -18,11 +17,9 @@ public class Game implements Runnable {
     
     private Ball ball;
     private Score score;
-    private PlayerThread winner = null;
-    
+
     private static final int WIDTH = 800; 
     private static final int HEIGHT = WIDTH/4*3;
-    private static final double SCALE = 1;
     private static final int WAIT = 8;
     
     public static final int MAP_WIDTH = WIDTH;
@@ -36,7 +33,7 @@ public class Game implements Runnable {
     private PlayerThread player1;//hráč na ľavej strane
     private PlayerThread player2;//hráč na pravej strane
     
-   private Login login;
+    private final Login login;
 
     public Game(PlayerThread player1, PlayerThread player2, Login login) {
         this.player1 = player1;
