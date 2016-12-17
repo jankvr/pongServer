@@ -21,8 +21,8 @@ import pongserver.main.CmdParser;
 import pongserver.main.Server;
 
 /**
- *
- * @author User
+ * Trieda reprezentujúca hráča na serverovej strane
+ * @author Jan Kovář, Jarovlas Fedorčák
  */
 public class PlayerThread implements Runnable {
     private final ReentrantLock lock =  new ReentrantLock(); 
@@ -57,6 +57,10 @@ public class PlayerThread implements Runnable {
         }
     }
     
+    /**
+     * Určuje triede, ktorý hráč je jej oponent
+     * @param game hra, ktorú hráč hraje
+     */
     public void setOpponent(Game game) {
         this.game = game;
         
@@ -69,25 +73,51 @@ public class PlayerThread implements Runnable {
 
     }
     
+    /**
+     * vracia dĺžku odrážacej plochy hráča
+     * @return dĺžka odrážacej plochy hráča
+     */
     public double getLength(){
         return length;
     }
+    
+    /**
+     * vracia x-ovú pozíciu hráča
+     * @return x-ová pozícia hráča
+     */
     public double getxPosition() {
         return xPosition;
     }
 
+    /**
+     * nastavuje x-ovú pozíciu hráča
+     * @param xPosition x-ová pozícia hráča
+     */
     public void setxPosition(double xPosition) {
         this.xPosition = xPosition;
     }
 
+    /**
+     * vracia y-ovú pozíciu hráča
+     * @return y-ová pozícia hráča 
+     */
     public double getyPosition() {
         return yPosition;
     }
 
+    /**
+     * nastavuje y-ovú pozíciu hráča
+     * @param yPosition y-ová pozícia hráča
+     */
     public void setyPosition(double yPosition) {
         this.yPosition = yPosition;
     }
     
+    /**
+     * vracia informáciu o tom, či pádlo je v kolízii s loptou
+     * @param ball lopta danej hry
+     * @return true, pokiaľ sa dotýka lopty
+     */
     public boolean meets(Ball ball){
 //        System.out.println("----------------");
 //        System.out.println("ball xposition = "+ball.getxPosition());
@@ -101,10 +131,18 @@ public class PlayerThread implements Runnable {
                 (ball.getxPosition()==this.xPosition);
     }
 
+    /**
+     * vracia meno hráča
+     * @return meno hráča
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * nastavuje meno hráča
+     * @param name meno hráča
+     */
     public void setName(String name){
         this.name=name;
     }
@@ -136,7 +174,7 @@ public class PlayerThread implements Runnable {
         
         catch (SocketException ex) {
             LOG.fatal(ex.getMessage());
-            game.getLogin().removeDisconnectedUser(this.name);
+            //game.getLogin().removeDisconnectedUser(this.name);
             
         } 
         catch (EOFException | InterruptedException ex) {
@@ -144,17 +182,23 @@ public class PlayerThread implements Runnable {
         }
         catch (IOException ex) {
             LOG.fatal(ex.getMessage());
-            game.getLogin().removeDisconnectedUser(this.name);
+            game.getLogin().removeDisconnectedUser(this.name); //login potrebuje vedieť, že môže znova pripojiť hráča keď sa ohlási
         }
         finally {
             try {
                 server.removeConnection(this);
+                game.getLogin().removeDisconnectedUser(name);
+                sendData("OPPONENTNNECTED");
             } catch (IOException ex) {
                 Logger.getLogger(PlayerThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
+    /**
+     * vracia socket
+     * @return socket
+     */
     public Socket getSocket() {
         return socket;
     }
@@ -182,14 +226,27 @@ public class PlayerThread implements Runnable {
         return Objects.equals(this.name, other.name);
     }
     
+    /**
+     * vracia svoj outputstream
+     * @return outputstream
+     */
     public DataOutputStream getOutputStream() {
         return outputStream;
     }
     
+    /**
+     * vracia svoj inputstream
+     * @return inputstream
+     */
     public DataInputStream getInputStream() {
         return inputStream;
     }
     
+    /**
+     * posiela správu oponentovi
+     * @param dataToSend správa oponentovi
+     * @throws IOException 
+     */
     public void sendData(String dataToSend) throws IOException {
         // zamknuti posilani zpravy oponentovi
         try {
@@ -202,19 +259,11 @@ public class PlayerThread implements Runnable {
              lock.unlock();
         }
     }
-    //Jaro: prípadne vymazať
-//    public double receiveDataFromClient() {// throws IOException{
-//        try{
-//            lock.lock();
-//            String message1 = inputStream.readUTF();
-//            parser.parse(this, message1);
-//        }
-//        finally{
-//            lock.unlock();
-//        }
 
-//    }
-    
+    /**
+     * nastavuje pozíciu v oboch rozmeroch
+     * @param message správa posielaná na parser
+     */
     private void setPosition(String message) {
         this.xPosition = this.parser.parsePosition("x",message);
         this.yPosition = this.parser.parsePosition("y",message);

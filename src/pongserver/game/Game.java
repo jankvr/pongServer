@@ -11,8 +11,8 @@ import pongserver.main.Login;
 import pongserver.players.PlayerThread;
 
 /**
- *
- * @author User
+ * Samotná hra medzi dvomi hráčmi.
+ * @author Jan Kovář, Jaroslav Fedorčák
  */
 public class Game implements Runnable {
     
@@ -48,42 +48,75 @@ public class Game implements Runnable {
         
     }
     
-//    public void setWinner(Player winner){
-//        this.winner = winner;
-//    }
-    
+
+    /**
+     * vracia ľavého hráča
+     * @return ľavý hráč
+     */
     public PlayerThread getPlayer1() {
         return player1;
     }
 
+    /**
+     * nastavuje ľavého hráča
+     * @param player1 ľavý hráč
+     */
     public void setPlayer1(PlayerThread player1) {
         this.player1 = player1;
     }
-
+ 
+   /**
+    * vracia pravého hráča
+    * @return praýv hráč
+    */
     public PlayerThread getPlayer2() {
         return player2;
     }
+    
+    /**
+     * nastavuje pravého hráča
+     * @param player2 pravý hráč
+     */
 
     public void setPlayer2(PlayerThread player2) {
         this.player2 = player2;
     }
 
+    /**
+     * vracia loptu danej hry
+     * @return lopta
+     */
     public Ball getBall() {
         return ball;
     }
 
+    /**
+     * nastavuje loptu v danej hre
+     * @param ball lopta
+     */
     public void setBall(Ball ball) {
         this.ball = ball;
     }
 
+    /**
+     * vracia aktuálne skóre hry
+     * @return skóre
+     */
     public Score getScore() {
         return score;
     }
 
+    /**
+     * nastavuje skóre v hre
+     * @param score skóre
+     */
     public void setScore(Score score) {
         this.score = score;
     }
 
+    /**
+     * Nastavuje východzie rozpoloženie hry a spúšťa ju
+     */
     public void setSidesAndStart() {
         try {
             player1.getOutputStream().writeUTF("RIGHT");
@@ -134,11 +167,7 @@ public class Game implements Runnable {
                     Thread.sleep(WAIT);
 
                 }
-            
-            //TODO: zobrazenie, kto vyhral   
-            
-            //TODO: tlačidlo, či chcú novú hru
-                //podľa neho sa určí, či sa willToContinue nastaví na false a nová hra nebude začatá
+                            
                 
                 
                 willToContinue = true;
@@ -151,7 +180,11 @@ public class Game implements Runnable {
             LOG.fatal(e.getMessage());
         }
     }
-    // toto asi nebude potreba
+  
+    /**
+     * vracia mená oboch hráčov
+     * @return mená oboch hráčov oddelené medzerou
+     */
     public String getName() {
         return player1.getName() + "_" + player2.getName();
     }
@@ -159,7 +192,7 @@ public class Game implements Runnable {
     
     /**
      * Login na to, aby sa hráč mohol pri odhlásení odobrať zo zoznamu prihlásených klientov
-     * @return 
+     * @return login
      */
     public Login getLogin() {
         return login;

@@ -8,17 +8,16 @@ import pongserver.players.PlayerThread;
 
 
 /**
- *
- * @author User
+ * CmdParser vykonáva činnosti, ktoré určujú príkazy an inpute
+ * @author Jaroslav Fedorčák, Jan Kovář
  */
 public class CmdParser {
-//    private final Game game;
-//    
-//    
-//    public CmdParser(Game game){
-//        this.game = game;
-//    }
-    
+
+    /**
+     * Defaultné parsovanie príkazu
+     * @param player hráč, ktorého sa text príkazu týka (nie ten, ktorý ho poslal)
+     * @param input text príkazu
+     */
     public void parse(PlayerThread player, String input){
         //rozdelenie stringu podľa medzier do poľa
         String backup = input;
@@ -34,6 +33,12 @@ public class CmdParser {
         } 
     }
     
+    /**
+     * spracovanie pozície, volané z miesta, kde sa očakáva iba poslanie pozície
+     * @param axis
+     * @param input text príkauzn na inpute
+     * @return 
+     */
     public double parsePosition(String axis, String input) {
         String delims = " ";
         String[] tokens = input.split(delims);  
@@ -53,6 +58,7 @@ public class CmdParser {
         } 
     }
     
+
     public String parseCommand(String input) {
         String delims = " ";
         String[] tokens = input.split(delims);

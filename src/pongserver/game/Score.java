@@ -6,8 +6,8 @@
 package pongserver.game;
 
 /**
- *
- * @author User
+ * Trieda skóre na strane klienta poskytuje a udržuje všetky informácie o stave hry
+ * @author Jaroslav Fedorčák
  */
 public class Score {
     private int rec1 = 0;//skóre hráča 1 (ľavého)
@@ -41,51 +41,75 @@ public class Score {
         return rec2 != max;
     }
     
-    public String getWinnerInfo(){
-        if(rec1>rec2) {
-            return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;
-        }
-        if(rec1<rec2) {
-            return game.getPlayer1().getName()+". The score is "+rec1+":"+rec2;
-        }
-        else {
-            return "nobody, it's a tie. The score is "+rec1+":"+rec2;
-        }
-    }
-    
+
+    /**
+     * Vracia počet bodov ľavého hráča
+     * @return počet bodov ľavého hráča
+     */
     public int getRec1() {
         return rec1;
     }
 
+    /**
+     * nastavuje počet bodov ľavého hráča
+     * @param rec1 počet bodov ľavého hráča
+     */
     public void setRec1(int rec1) {
         this.rec1 = rec1;
     }
 
+    /**
+     * vracia počet bodov pravého hráča
+     * @return počet bodov pravého hráča
+     */
     public int getRec2() {
         return rec2;
     }
 
+    /**
+     * nastavuje počet bodov pravého hráča
+     * @param rec2 počet bodov pravého hráča
+     */
     public void setRec2(int rec2) {
         this.rec2 = rec2;
     }
 
+    /**
+     * vracia informáciu o počte bodov, ktorý je potrebné dosiahnuť na vyhratie
+     * @return počet bodov na vyhratie
+     */
     public int getMax() {
         return max;
     }
 
+    /**
+     * nastavuje počet bodov na vyhratie
+     * @param max počet bodov na vyhratie
+     */
     public void setMax(int max) {
         this.max = max;
     }    
     
+    /**
+     * informuje o tom, či jeden z hráčov dosiahol maximálny počet bodo, teda vyhral
+     * @return true pokiaľ hráč dosiahol maximálny počet bodov
+     */
     public boolean isMax(){
         return rec1==max || rec2==max;
     }
     
+    /**
+     * nastavuje defaultný stav skóre 0:0
+     */
     public void reset(){
         rec1=0;
         rec2=0;
     }
     
+    /**
+     * vracia plnú informáciu o skóre
+     * @return 
+     */
     public String getScoreInfo(){
         return rec1 +" "+rec2;
     }

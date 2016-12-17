@@ -12,8 +12,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
- *
- * @author Jaroslav
+ * Trieda Login spravuje prihlasovanie na strane serveru.
+ * @author Jaroslav Fedorčák, Jan Kovář
  */
 public class Login {
     private final Map userMap; 
@@ -22,7 +22,7 @@ public class Login {
     
     
     public Login() {
-        userMap = new HashMap<>();
+        userMap = new HashMap<>();//"registrovaní" používatelia
         userMap.put("a", "a");
         userMap.put("b", "b");
         userMap.put("c", "c");
@@ -34,6 +34,12 @@ public class Login {
         
     }
     
+    /**
+     * Zistí, či je možné prihlásiť daného používateľa
+     * @param username používateľské meno prihlasovaného používateľa
+     * @param password heslo prihlasovaného používateľa
+     * @return "OK" ak bol hráč philásený, "ALREADYCONNECTED" ak už taký hráč prihlásený je, "WRONG" ak je zadané nesprávne meno alebo heslo
+     */
     public String check(String username, String password){
        
         if(userMap.containsKey(username) && userMap.get(username).equals(password)
@@ -51,7 +57,10 @@ public class Login {
         return "WRONG";
     }
     
-    
+    /**
+     * Odobratie používateľa, ktorý sa odpojil
+     * @param username používateľské meno odpojeného používateľa
+     */
     public void removeDisconnectedUser(String username){
         if(connectedUsers.contains(username)){
             connectedUsers.remove(username);

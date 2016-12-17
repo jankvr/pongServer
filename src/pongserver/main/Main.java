@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- *
- * @author User
+ * Hlavná trieda servera
+ * @author Jan Kovář, Jaroslav Fedorčák
  */
 public class Main extends Application implements IGui {
 

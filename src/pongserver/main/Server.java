@@ -18,9 +18,10 @@ import pongserver.game.Game;
 import pongserver.players.PlayerThread;
 
 /**
- * Hlavni trida 
+ * Serverová trieda spravujúca pripájanie cez sieť a ostatné prípadné potrebné
+ * činnosti
  * 
- * @author User
+ * @author Jan kovář, Jaroslav Fedorčák
  */
 public class Server implements Runnable {
     
@@ -51,6 +52,10 @@ public class Server implements Runnable {
         }
     }
     
+    /**
+     * prijímanie pripojovaných klientov
+     * @throws IOException 
+     */
     private void listen() throws IOException {
         gui.appendMessage("Starting to listen on " + serverSocket);
         LOG.info("Starting to listen on " + serverSocket);
@@ -72,11 +77,7 @@ public class Server implements Runnable {
             
             boolean loginIsFine = false;
             while(!loginIsFine){
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+
                 String loginMessage = playerThread.getInputStream().readUTF(); 
                 String[] tokens = loginMessage.split(" ");  
                 
@@ -136,6 +137,9 @@ public class Server implements Runnable {
         }
     }
     
+    /**
+     * Popisuje stav servra
+     */
     public void serverStatus() {
         gui.appendMessage("Current player status on server: " + playerQueue.size() + " player(s) waiting");
         LOG.info("Current player status on server: " + playerQueue.size() + " player(s) waiting");
@@ -156,6 +160,11 @@ public class Server implements Runnable {
         return retrieveList;
     }
     
+    /**
+     * Spravovanie klienta, po tom, čo sa odpojil
+     * @param player hráč, ktorý sa odpojil
+     * @throws IOException 
+     */
     public void removeConnection(PlayerThread player) throws IOException {
         
         //delete map entry
