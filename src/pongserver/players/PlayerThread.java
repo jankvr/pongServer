@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import pongserver.game.Ball;
 import pongserver.game.Game;
 import pongserver.main.CmdParser;
-import pongserver.main.Login;
 import pongserver.main.Server;
 
 /**
