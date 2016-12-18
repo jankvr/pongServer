@@ -34,6 +34,11 @@ public class Server implements Runnable {
     private Login login;
     private static final Logger LOG = Logger.getLogger(Server.class.getName());
     
+    /**
+     * Konstruktor.
+     * @param port port, na kterem nasloucha server
+     * @param gui odkaz na gui okno serveru (pro vypisovani hlasek)
+     */
     public Server(int port, IGui gui) {
         
         try {
@@ -128,6 +133,9 @@ public class Server implements Runnable {
         }
     }
 
+    /**
+     * Hlavni metoda, ktera zajistuje to, ze server zavola metodu listen, coz je cyklus prijimani a odesilani zprav
+     */
     @Override
     public void run() {
         try {

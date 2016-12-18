@@ -20,14 +20,18 @@ import javafx.stage.WindowEvent;
 public class Main extends Application implements IGui {
 
     private TextArea textArea;
-    private Server server;
+    private static final int PORT = 5000;
     
+    /**
+     * Hlavni metoda pro vypis okna a samotne vytvoreni serveru
+     * @param stage 
+     */
     @Override
     public void start(Stage stage) {
         textArea = new TextArea();
         textArea.setEditable(false);
 
-        server = new Server(5000, this);
+        Server server = new Server(PORT, this);
         
         StackPane root = new StackPane();
         root.getChildren().add(textArea);

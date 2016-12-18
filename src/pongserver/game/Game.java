@@ -137,6 +137,17 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Hlavni trida threadu, ktera se stara o to, ze se vytvori hra pro dva hrace, kteri jsou predani hlavnim serverem.
+     * Postup je nasledujici - vytvori se dva thready, ktere se nastartuji. Temto threadum se posle zprava o tom, na jake strane kdo bude,
+     * nasledne se posle zprava o samotnem startu hry.
+     * Pote se posilaji zpravy o poloze micku, skore.
+     * 
+     * Samotne vypocitavani reakci micku probiha na strane serveru, klient pouze prijima informace o tom, kde micek je. 
+     * K tomu je potreba ukladat info o poloze hrace, coz se uklada na strane serveru ve tride PlayerThread. K zjisteni pozice je pak
+     * potreba pouze a jednoduse zavolat metodu hrace a uz lze vypocitat vse podstatne.
+     * 
+     */
     @Override
     public void run() {
         try {

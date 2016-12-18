@@ -42,7 +42,12 @@ public class PlayerThread implements Runnable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PlayerThread.class.getName());
     
 
-
+    /**
+     * Konstruktor, ktery prirazuje socket, server a jmeno hrace.
+     * @param name jmeno hrace
+     * @param socket konkretni socket, ktery se pouziva pro komunikaci se serverem
+     * @param server odkaz na hlavni serverovou tridu kvuli pripadnemu odstraneni connection
+     */
     public PlayerThread(String name, Socket socket, Server server) {
         this.name = name;
         this.socket = socket;
@@ -119,13 +124,6 @@ public class PlayerThread implements Runnable {
      * @return true, pokiaľ sa dotýka lopty
      */
     public boolean meets(Ball ball){
-//        System.out.println("----------------");
-//        System.out.println("ball xposition = "+ball.getxPosition());
-//        System.out.println("ball yposition = "+ball.getyPosition());
-//        System.out.println("this xposition = "+this.xPosition);
-//        System.out.println("this yposition = "+this.yPosition);
-//        System.out.println("this yposition+halflength = "+(this.yPosition+halfLength));
-//        System.out.println("this yposition-halflength = "+(this.yPosition-halfLength));
         return (ball.getyPosition()<this.yPosition+length && 
                 ball.getyPosition()>this.yPosition)&&
                 (ball.getxPosition()==this.xPosition);
@@ -147,6 +145,11 @@ public class PlayerThread implements Runnable {
         this.name=name;
     }
     
+    /**
+     * Hlavni metoda player threadu, ktera zajistuje opakovane prijimani zprav ze strany hrace (klienta) na server a odesilani zprav server -> hrac (klient).
+     * V pripade chyby se zprava zaloguje a ukonci se spojeni.
+     * 
+     */
     @Override
     public void run() {
         try {
@@ -210,6 +213,11 @@ public class PlayerThread implements Runnable {
         return hash;
     }
 
+    /**
+     * Equals metoda pro porovnavani dvou threadu.
+     * @param obj porovnavany objekt
+     * @return true, pokud jsou dva thready stejne, false v opacnem pripade
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

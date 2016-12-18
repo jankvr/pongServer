@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package pongserver.main;
+import org.apache.log4j.Logger;
 import pongserver.players.PlayerThread;
 
 
@@ -13,6 +14,8 @@ import pongserver.players.PlayerThread;
  */
 public class CmdParser {
 
+    private static final Logger LOG = Logger.getLogger(Server.class.getName());
+    
     /**
      * Defaultné parsovanie príkazu
      * @param player hráč, ktorého sa text príkazu týka (nie ten, ktorý ho poslal)
@@ -29,7 +32,7 @@ public class CmdParser {
             player.setyPosition(Integer.parseInt(tokens[1]));
         }        
         else{
-            System.out.println("nesprávny reťazec poslaný na CmdParser:"+backup);
+            LOG.warn("nesprávny reťazec poslaný na CmdParser:"+backup);
         } 
     }
     
@@ -59,6 +62,12 @@ public class CmdParser {
     }
     
 
+    /**
+     * Zjisteni samotneho prikazu (nehlede na parametry).
+     * Pouziva se v PlayerThread
+     * @param input prijimana zprava
+     * @return prikaz
+     */
     public String parseCommand(String input) {
         String delims = " ";
         String[] tokens = input.split(delims);
